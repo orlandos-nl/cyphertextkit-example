@@ -39,7 +39,19 @@ final class MostRecentMessage<Chat: AnyConversation>: ObservableObject {
 struct ChatRow: View {
     let contact: Contact
     let privateChat: PrivateChat
+    @State var isPinned: Bool
+    @State var isUnread: Bool
+    @State var id = UUID()
+    @Environment(\.plugin) var plugin
     @StateObject var mostRecentMessage: MostRecentMessage<PrivateChat>
+    
+    init(contact: Contact, privateChat: PrivateChat, mostRecentMessage: MostRecentMessage<PrivateChat>) {
+        self.contact = contact
+        self.privateChat = privateChat
+        self._isPinned = .init(wrappedValue: privateChat.isPinned)
+        self._isUnread = .init(wrappedValue: privateChat.isMarkedUnread)
+        self._mostRecentMessage = .init(wrappedValue: mostRecentMessage)
+    }
     
     var body: some View {
         RouterLink(to: Routes.privateChat(privateChat, contact: contact)) {
@@ -52,6 +64,10 @@ struct ChatRow: View {
                             message.sender == contact.username,
                             message.raw.deliveryState != .read
                         {
+                            Circle()
+                                .fill(Color.accentColor)
+                                .frame(width: 12, height: 12)
+                        } else if isUnread {
                             Circle()
                                 .fill(Color.accentColor)
                                 .frame(width: 12, height: 12)
@@ -101,9 +117,66 @@ struct ChatRow: View {
                         }
                         
                         Spacer()
+                        
+                        if isPinned {
+                            Text(Image(systemName: "pin"))
+                                .font(.system(size: 12, weight: .light))
+                                .foregroundColor(.gray)
+                        }
                     }
                 }.frame(height: 38).background(Color.almostClear)
             }
-        }
+        }.contextMenu {
+            if !isUnread {
+                Button(role: nil) {
+                    self.isUnread = true
+                    _ = try? await self.privateChat.markUnread()
+                    self.id = UUID()
+                } label: {
+                    Label("Mark as Unread", systemImage: "bell")
+                }
+            }
+            
+            if isUnread {
+                Button(role: nil) {
+                    isUnread = false
+                    self.id = UUID()
+                    _ = try? await self.privateChat.unmarkUnread()
+                    _ = try? await mostRecentMessage.message?.markAsRead()
+                } label: {
+                    Label("Mark as Read", systemImage: "bell")
+                }
+            } else if
+                let message = mostRecentMessage.message,
+                message.sender == contact.username,
+                message.raw.deliveryState != .read
+            {
+                Button(role: nil) {
+                    self.isUnread = true
+                    self.id = UUID()
+                    _ = try? await mostRecentMessage.message?.markAsRead()
+                } label: {
+                    Label("Mark as Read", systemImage: "bell")
+                }
+            }
+            
+            if privateChat.isPinned {
+                Button(role: nil) {
+                    self.isPinned = false
+                    self.id = UUID()
+                    _ = try? await privateChat.unpin()
+                } label: {
+                    Label("Unpin from Top", systemImage: "pin.slash")
+                }
+            } else {
+                Button(role: nil) {
+                    self.isPinned = true
+                    self.id = UUID()
+                    _ = try? await privateChat.pin()
+                } label: {
+                    Label("Pin to Top", systemImage: "pin")
+                }
+            }
+        }.id(id)
     }
 }

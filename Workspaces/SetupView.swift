@@ -77,7 +77,7 @@ struct ProcessingView: View {
                 asyncDetached {
                     do {
                         let eventLoop = MultiThreadedEventLoopGroup(numberOfThreads: 1).next()
-                        let emitter = SwiftUIEventEmitter()
+                        let emitter = makeEventEmitter()
                         let store = try await SQLiteStore.create(on: eventLoop)
                         let messenger = try await CypherMessenger.registerMessenger(
                             username: Username(username),
@@ -110,6 +110,7 @@ struct ProcessingView: View {
                         )
                         
                         await emitter.boot(for: messenger)
+                        
                         self.complete(messenger: messenger, emitter: emitter)
                     } catch {
                         self.fail(error: error)

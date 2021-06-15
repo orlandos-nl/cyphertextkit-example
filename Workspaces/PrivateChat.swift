@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUIX
 import CypherMessaging
 import Router
 
@@ -90,7 +91,7 @@ struct PrivateChatView: View {
                             proxy.scrollTo("bottom")
                         }
                     }
-                }
+                }.background(Color.almostClear.onTapGesture(perform: Keyboard.dismiss))
             }.navigationTitle(contact.username.raw)
             
             Divider()
@@ -128,29 +129,143 @@ struct PrivateChatView: View {
 struct ChatBar<Chat: AnyConversation>: View {
     let chat: Chat
     @State var message = ""
+    @State var sendAttachment = false
+    @State var isRecording = false
+    @State var recorder: VoiceRecorder?
+    @State var soundSample: Float = 0
+    @State var recordedAudio: Data? = nil
+    @Environment(\.messenger) var messenger
     
     var body: some View {
-        HStack {
-            ExpandingTextView(
-                "Message",
-                text: $message,
-                heightRange: 16..<80,
-                isDisabled: .constant(false)
-            )
-            .padding(4)
-            .background(RoundedRectangle(cornerRadius: 8).stroke(Color(white: 0.9)))
-            .background(RoundedRectangle(cornerRadius: 8).fill(Color(white: 0.95)))
-            
-            Button("Send", role: nil) {
-                if message.isEmpty { return }
+        VStack(spacing: 0) {
+            HStack {
+                Button {
+                    sendAttachment = true
+                } label: {
+                    Image(systemName: "paperclip")
+                        .padding(8)
+                        .background(Color.almostClear)
+                }.actionSheet(isPresented: $sendAttachment) {
+                    ActionSheet(
+                        title: Text("Send Attachment"),
+                        buttons: [
+                            .default(Text("Photo")),
+                            .default(Text("File")),
+                            .default(Text("Poll")),
+                            .cancel(Text("Cancel")),
+                        ]
+                    )
+                }
                 
-                do {
-                    try await chat.sendRawMessage(type: .text, text: message, preferredPushType: .message)
-                    message = ""
-                } catch {}
-            }.disabled(message.isEmpty)
+                ExpandingTextView(
+                    "Message",
+                    text: $message,
+                    heightRange: 16..<80,
+                    isDisabled: $isRecording
+                )
+                .padding(.vertical, 4)
+                .padding(.horizontal, 12)
+                .background(RoundedRectangle(cornerRadius: 20).stroke(Color(white: 0.9)))
+                .background(RoundedRectangle(cornerRadius: 20).fill(Color(white: 0.95)))
+                
+                Button(role: nil) {
+                    do {
+                        if message.isEmpty {
+                            if isRecording {
+                                recorder?.stop()
+                                isRecording = false
+                            } else {
+                                detach {
+                                    if await recorder?.start() == true {
+                                        isRecording = true
+                                    }
+                                }
+                            }
+                        } else {
+                            let message = self.message
+                            self.message = ""
+                            try await chat.sendRawMessage(type: .text, text: message, preferredPushType: .message)
+                        }
+                    } catch {}
+                } label: {
+                    Circle()
+                        .foregroundColor(isRecording ? .red : Color(white: 0.95))
+                        .padding(isRecording ? -normalisedSoundLevel : 0)
+                        .animation(.easeInOut, value: soundSample)
+                        .overlay(
+                            ZStack {
+                                Image(
+                                    systemName: message.isEmpty ? "mic.fill" : "paperplane.fill"
+                                ).foregroundColor(buttonColor)
+                            
+                                if isRecording, let startDate = recorder?.startDate {
+                                    AutoUpdatingTimeLabel(startDate: startDate)
+                                        .foregroundColor(.white)
+                                        .padding(.top, 28)
+                                }
+                            }
+                        )
+                }.frame(width: 36, height: 36).sheet(isPresented: $recordedAudio.isNotNil()) {
+                    if let audio = recordedAudio {
+                        AudioSender(audio: audio, chat: chat)
+                    }
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 5)
+        }.onAppear {
+            recorder = VoiceRecorder(
+                messenger: messenger,
+                isRecording: $isRecording,
+                soundSample: $soundSample
+            ) { data in
+                self.recordedAudio = data
+            }
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 5)
+    }
+    
+    var normalisedSoundLevel: CGFloat {
+        let level = max(0, CGFloat(soundSample) + 50) / 2 // between 0.1 and 25
+        
+        return CGFloat(level * (24 / 25)) + 4 // scaled to max at 16 (our desired max stretching of the record button) + minimum sizing
+    }
+    
+    var buttonColor: Color {
+        if isRecording {
+            return .white
+        } else if message.isEmpty {
+            return .gray
+        } else {
+            return .accentColor
+        }
+    }
+}
+
+struct AutoUpdatingTimeLabel: View {
+    let startDate: Date
+    @StateObject var tick = AutoSignal(interval: .seconds(1))
+    
+    var timeString: String {
+        let seconds = abs(Int(startDate.timeIntervalSinceNow))
+        
+        if seconds < 10 {
+            return "0\(seconds)"
+        } else if seconds < 60 {
+            return String(seconds)
+        } else {
+            let minutes = seconds % 60
+            let seconds = seconds - (minutes * 60)
+            
+            if seconds < 10 {
+                return "\(minutes):0\(seconds)"
+            } else {
+                return "\(minutes):\(seconds)"
+            }
+        }
+    }
+    
+    var body: some View {
+        Text(timeString)
+            .font(.system(size: 10, design: .monospaced))
     }
 }

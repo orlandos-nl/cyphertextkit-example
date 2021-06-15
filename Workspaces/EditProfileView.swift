@@ -39,6 +39,8 @@ struct EditProfileView: View {
                             self.selectPicture = true
                         }.sheet(isPresented: $selectPicture) {
                             ImagePicker(source: .camera) { image in
+                                selectPicture = false
+                                
                                 guard let image = image else { return }
                                 guard let jpeg = image.jpegData(compressionQuality: 0.7) else { return }
                                 

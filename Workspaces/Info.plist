@@ -29,6 +29,8 @@
 	<string>The camera is used to send videos and pictures to other people, and change your profile picture.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>We use the local network to discover physically nearby contacts.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We use your microphone for calling with contacts</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

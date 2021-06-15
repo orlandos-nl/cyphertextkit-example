@@ -58,7 +58,7 @@ struct SettingsView: View {
                     
                     Image(systemName: "chevron.right")
                         .foregroundColor(.gray)
-                }
+                }.background(Color.almostClear)
             }
         }.navigationTitle("Settings")
     }

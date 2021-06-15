@@ -53,18 +53,6 @@ struct ChatsView: View {
                                         .padding(8)
                                 }
                             }
-                        }.contextMenu {
-                            Button {
-                                
-                            } label: {
-                                Label("Mark as Unread", systemImage: "bell")
-                            }
-                            
-                            Button {
-                                
-                            } label: {
-                                Label("Pin to Top", systemImage: "pin")
-                            }
                         }
                     }
                 case .groupChat, .internalChat:

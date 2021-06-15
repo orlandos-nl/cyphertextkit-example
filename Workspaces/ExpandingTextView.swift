@@ -21,9 +21,7 @@ public struct ExpandingTextView<Label: View>: View {
     
     public var body: some View {
         return ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
-            label
-                .visible(text.isEmpty)
-                .animation(.none)
+            label.visible(text.isEmpty)
             
             _ExpandingTextView(
                 text: $text,

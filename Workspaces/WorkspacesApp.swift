@@ -10,6 +10,30 @@ import NIO
 import CypherMessaging
 import MessagingHelpers
 
+func makeEventEmitter() -> SwiftUIEventEmitter {
+    SwiftUIEventEmitter { lhs, rhs in
+        switch (lhs.isPinned, rhs.isPinned) {
+        case (true, true), (false, false):
+            ()
+        case (true, false):
+            return true
+        case (false, true):
+            return false
+        }
+        
+        switch (lhs.lastActivity, rhs.lastActivity) {
+        case (.some(let lhs), .some(let rhs)):
+            return lhs > rhs
+        case (.some, .none):
+            return true
+        case (.none, .some):
+            return false
+        case (.none, .none):
+            return true
+        }
+    }
+}
+
 func makeEventHandler(emitter: SwiftUIEventEmitter) -> PluginEventHandler {
     PluginEventHandler(plugins: [
         FriendshipPlugin(ruleset: {
@@ -33,7 +57,7 @@ struct WorkspacesApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     @State var exists = SQLiteStore.exists()
-    @StateObject var emitter = SwiftUIEventEmitter()
+    @StateObject var emitter = makeEventEmitter()
     
     var body: some Scene {
         WindowGroup {

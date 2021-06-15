@@ -8,122 +8,99 @@
 import SwiftUI
 import Router
 
-struct BottomBarPresenter: Presenter {
-    let item: BottomBar.Item
-    let presentationMode = RoutePresentationMode.replaceParent
-
-    func body(with context: PresentationContext) -> some View {
-        VStack(spacing: 0) {
-            context.destination
-
-            Spacer(minLength: 0)
+extension Routes {
+    static func tabView(selection: Binding<BottomBarItem>) -> some Route {
+        struct _TabViewWrapper: View {
+            @Binding var selection: BottomBarItem
+            @Environment(\.router) var router
+            @Environment(\.messenger) var messenger
+            @Environment(\.plugin) var plugin
+            @State var unacceptedContacts = 0
+            @State var unreadChats = 0
             
-            Divider()
-
-            BottomBar(selectedItem: item)
-        }.edgesIgnoringSafeArea(.bottom)
+            var body: some View {
+                TabView(selection: $selection) {
+                    ContactsView().tabItem {
+                        Image(systemName: "person.3")
+                        
+                        Text(BottomBarItem.contacts.title)
+                    }.tag(BottomBarItem.contacts).badge(unacceptedContacts)
+                    
+                    ChatsView().tabItem {
+                        Image(systemName: "text.bubble")
+                        
+                        Text(BottomBarItem.chats.title)
+                    }.tag(BottomBarItem.chats).badge(unreadChats)
+                    
+                    AsyncView(run: {
+                        try await messenger.readProfileMetadata()
+                    }) { metadata in
+                        SettingsView(metadata: metadata)
+                    }.tabItem {
+                        Image(systemName: "gear")
+                        
+                        Text(BottomBarItem.settings.title)
+                    }.tag(BottomBarItem.settings)
+                }.task {
+                    await recalculateBadges()
+                }.onReceive(plugin.conversationChanged) { _ in
+                    detach {
+                        await recalculateBadges()
+                    }
+                }
+            }
+            
+            @MainActor func recalculateBadges() async {
+                do {
+                    var unacceptedContactsCount = 0
+                    var unreadChatsCount = 0
+                    
+                    for contact in try await messenger.listContacts() {
+                        if contact.ourState == .undecided {
+                            unacceptedContactsCount += 1
+                        }
+                    }
+                    
+                    for chat in try await messenger.listConversations(
+                        includingInternalConversation: false,
+                        increasingOrder: { _, _ in return true }
+                    ) {
+                        if chat.isMarkedUnread {
+                            unreadChatsCount += 1
+                        } else if
+                            let message = try await chat.cursor(sortedBy: .descending).getNext(),
+                            message.raw.deliveryState != .read,
+                            message.sender != messenger.username
+                        {
+                            unreadChatsCount += 1
+                        }
+                    }
+                    
+                    unacceptedContacts = unacceptedContactsCount
+                    unreadChats = unreadChatsCount
+                } catch {}
+            }
+        }
+        
+        return SimpleRoute {
+            _TabViewWrapper(selection: selection)
+        }
     }
 }
 
-struct BottomBar: View {
-    enum Item: CaseIterable {
-        case contacts, chats, settings
-        
-        var title: String {
-            switch self {
-            case .contacts:
-                return "Contacts"
-            case .chats:
-                return "Chats"
-            case .settings:
-                return "Settings"
-            }
-        }
-        
-        var selectedImage: Image {
-            switch self {
-            case .contacts:
-                return Image(systemName: "person.3.fill")
-            case .chats:
-                return Image(systemName: "text.bubble.fill")
-            case .settings:
-                return Image(systemName: "gear")
-            }
-        }
-        
-        var deselectedImage: Image {
-            switch self {
-            case .contacts:
-                return Image(systemName: "person.3")
-            case .chats:
-                return Image(systemName: "text.bubble")
-            case .settings:
-                return Image(systemName: "gear")
-            }
-        }
-        
-        func route(for router: Router) {
-            switch self {
-            case .contacts:
-                router.replaceRoot(
-                    with: Routes.contacts,
-                    using: BottomBarPresenter(item: .contacts)
-                )
-            case .chats:
-                router.replaceRoot(
-                    with: Routes.chats,
-                    using: BottomBarPresenter(item: .chats)
-                )
-            case .settings:
-                router.replaceRoot(
-                    with: Routes.settings,
-                    using: BottomBarPresenter(item: .settings)
-                )
-            }
+enum BottomBarItem: Int, Identifiable {
+    case contacts, chats, settings
+    
+    var title: String {
+        switch self {
+        case .contacts:
+            return "Contacts"
+        case .chats:
+            return "Chats"
+        case .settings:
+            return "Settings"
         }
     }
     
-    @State var selectedItem: Item
-    @Environment(\.router) var router
-    
-    func itemView(item: Item) -> some View {
-        VStack(spacing: 4) {
-            (selectedItem == item ? item.selectedImage : item.deselectedImage)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: 44, maxHeight: 24)
-            
-            Text(item.title)
-                .font(.system(size: 13, weight: selectedItem == item ? .medium : .regular))
-        }
-        .frame(minWidth: 44, minHeight: 44)
-        .background(Color.white.opacity(0.0001))
-        .foregroundColor(selectedItem == item ? .blue : .gray)
-        .animation(.easeIn)
-        .onTapGesture {
-            selectedItem = item
-            
-            if let router = router {
-                item.route(for: router)
-            }
-        }
-    }
-    
-    var body: some View {
-        HStack {
-            itemView(item: .contacts)
-            
-            Spacer()
-            
-            itemView(item: .chats)
-            
-            Spacer()
-            
-            itemView(item: .settings)
-        }
-        .padding(.horizontal, 44)
-        .padding(.vertical, 6)
-        .padding(.bottom, UIApplication.shared.windows[0].safeAreaInsets.bottom)
-        .background(Color(white: 0.98))
-    }
+    var id: Int { rawValue }
 }

@@ -14,7 +14,7 @@ extension EnvironmentValues {
     private struct SwiftUIEventEmitterKey: EnvironmentKey {
         typealias Value = SwiftUIEventEmitter
         
-        static let defaultValue = SwiftUIEventEmitter()
+        static let defaultValue = makeEventEmitter()
     }
     
     private struct CypherMessengerKey: EnvironmentKey {
@@ -47,54 +47,28 @@ enum Routes {}
 
 struct AppView: View {
     @State var router = WorkspacesRouter(navigationController: WorkspaceNavigationController())
-    @State var locked = false // TODO:
-    @State var destroyed = false
+    @State var selection = BottomBarItem.chats
     
     var body: some View {
-        ZStack {
-            UINavigationControllerRouterView(router: router)
-                .edgesIgnoringSafeArea(.all)
-                .onAppear {
-                    router.replaceRoot(
-                        with: Routes.chats,
-                        using: BottomBarPresenter(item: .chats)
-                    )
-                }
-            
-            if destroyed {
-                Color.black
-                    .edgesIgnoringSafeArea(.all)
-                
-                VStack {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        .scaleEffect(2.5)
-                        .padding(.bottom, 44)
+        UINavigationControllerRouterView(router: router)
+            .edgesIgnoringSafeArea(.all)
+            .onAppear {
+                router.replaceRoot(with: Routes.tabView(selection: $selection))
+                UIApplication.shared.registerForRemoteNotifications()
+                UNUserNotificationCenter.current().getNotificationSettings { settings in
+                    if settings.badgeSetting == .enabled {
+                        return
+                    } else if settings.soundSetting == .enabled {
+                        return
+                    } else if settings.alertSetting == .enabled {
+                        return
+                    }
                     
-                    Text("Destroying App")
-                        .font(.title)
-                        .foregroundColor(.white)
-                    
-                    Text("The app closes automatically")
-                        .foregroundColor(.white)
+                    UNUserNotificationCenter.current().requestAuthorization(options: [
+                        .badge, .sound, .alert
+                    ]) { _, _ in }
                 }
             }
-        }.onAppear {
-            UIApplication.shared.registerForRemoteNotifications()
-            UNUserNotificationCenter.current().getNotificationSettings { settings in
-//                if settings.badgeSetting == .enabled {
-//                    return
-//                } else if settings.soundSetting == .enabled {
-//                    return
-//                } else if settings.alertSetting == .enabled {
-//                    return
-//                }
-                
-                UNUserNotificationCenter.current().requestAuthorization(options: [
-                    .badge, .sound, .alert
-                ]) { _, _ in }
-            }
-        }
     }
 }
 

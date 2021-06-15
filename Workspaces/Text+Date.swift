@@ -57,7 +57,7 @@ private let dayMonthYearTimeFormatter: DateFormatter = {
 }()
 
 extension Text {
-    init?(date: Date, requiresTime: Bool = false) {
+    init(date: Date, requiresTime: Bool = false) {
         let calendar = Calendar.current
         
         if calendar.isDateInToday(date) {

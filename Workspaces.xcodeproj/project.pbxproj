@@ -18,7 +18,14 @@
 		2443C9F5262D76C10069680D /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2443C9F4262D76C10069680D /* MessageCell.swift */; };
 		2443C9F8262D7C500069680D /* ExpandingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2443C9F7262D7C500069680D /* ExpandingTextView.swift */; };
 		244576DF26737264006B8E56 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 244576DE26737264006B8E56 /* SwiftUIX */; };
+		247B11502678C67D00F75EE3 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247B114F2678C67D00F75EE3 /* AudioPlayer.swift */; };
+		247B11522678C69F00F75EE3 /* PlayAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247B11512678C69F00F75EE3 /* PlayAudioView.swift */; };
 		24838A0426778BC5002CC4FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A0326778BC5002CC4FC /* AppDelegate.swift */; };
+		24838A062678AA25002CC4FC /* ShareAttachmentSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A052678AA25002CC4FC /* ShareAttachmentSheet.swift */; };
+		24838A092678AAC8002CC4FC /* PinnedChatsPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A082678AAC8002CC4FC /* PinnedChatsPlugin.swift */; };
+		24838A0B2678B9B1002CC4FC /* VoiceRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A0A2678B9B1002CC4FC /* VoiceRecorder.swift */; };
+		24838A0D2678BDA4002CC4FC /* AutoSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A0C2678BDA4002CC4FC /* AutoSignal.swift */; };
+		24838A0F2678BF83002CC4FC /* AudioSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A0E2678BF83002CC4FC /* AudioSender.swift */; };
 		24A43ED92622614F000A0399 /* WorkspacesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43ED82622614F000A0399 /* WorkspacesApp.swift */; };
 		24A43EDB2622614F000A0399 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43EDA2622614F000A0399 /* AppView.swift */; };
 		24A43EDD26226151000A0399 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24A43EDC26226151000A0399 /* Assets.xcassets */; };
@@ -57,7 +64,14 @@
 		2443C9F0262D721A0069680D /* Text+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Date.swift"; sourceTree = "<group>"; };
 		2443C9F4262D76C10069680D /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		2443C9F7262D7C500069680D /* ExpandingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingTextView.swift; sourceTree = "<group>"; };
+		247B114F2678C67D00F75EE3 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		247B11512678C69F00F75EE3 /* PlayAudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAudioView.swift; sourceTree = "<group>"; };
 		24838A0326778BC5002CC4FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		24838A052678AA25002CC4FC /* ShareAttachmentSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareAttachmentSheet.swift; sourceTree = "<group>"; };
+		24838A082678AAC8002CC4FC /* PinnedChatsPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedChatsPlugin.swift; sourceTree = "<group>"; };
+		24838A0A2678B9B1002CC4FC /* VoiceRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecorder.swift; sourceTree = "<group>"; };
+		24838A0C2678BDA4002CC4FC /* AutoSignal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSignal.swift; sourceTree = "<group>"; };
+		24838A0E2678BF83002CC4FC /* AudioSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSender.swift; sourceTree = "<group>"; };
 		24A43ED52622614F000A0399 /* Workspaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Workspaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24A43ED82622614F000A0399 /* WorkspacesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspacesApp.swift; sourceTree = "<group>"; };
 		24A43EDA2622614F000A0399 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
@@ -102,6 +116,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24838A072678AABC002CC4FC /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				24838A082678AAC8002CC4FC /* PinnedChatsPlugin.swift */,
+			);
+			path = Plugins;
+			sourceTree = "<group>";
+		};
 		24A43ECC2622614F000A0399 = {
 			isa = PBXGroup;
 			children = (
@@ -123,15 +145,22 @@
 		24A43ED72622614F000A0399 /* Workspaces */ = {
 			isa = PBXGroup;
 			children = (
+				24838A072678AABC002CC4FC /* Plugins */,
 				24A43F2A26232768000A0399 /* Workspaces.entitlements */,
 				24A43ED82622614F000A0399 /* WorkspacesApp.swift */,
 				24838A0326778BC5002CC4FC /* AppDelegate.swift */,
 				2443C9E2262C8B780069680D /* PrivateChat.swift */,
+				24838A0A2678B9B1002CC4FC /* VoiceRecorder.swift */,
+				24838A052678AA25002CC4FC /* ShareAttachmentSheet.swift */,
+				247B11512678C69F00F75EE3 /* PlayAudioView.swift */,
+				247B114F2678C67D00F75EE3 /* AudioPlayer.swift */,
 				24A43F2226232067000A0399 /* Metadata */,
 				24A43EF126226AB8000A0399 /* SetupView.swift */,
+				24838A0E2678BF83002CC4FC /* AudioSender.swift */,
 				24AE7A9D26775E57005C96EC /* EditProfileView.swift */,
 				24A43F3A262345A2000A0399 /* AddOnlineContact.swift */,
 				2443C9F4262D76C10069680D /* MessageCell.swift */,
+				24838A0C2678BDA4002CC4FC /* AutoSignal.swift */,
 				24A43F2C26232FA7000A0399 /* Messenger.swift */,
 				2443C9F7262D7C500069680D /* ExpandingTextView.swift */,
 				24A43F35262334AB000A0399 /* AddLocalContact.swift */,
@@ -286,11 +315,16 @@
 			files = (
 				24A43EEE262261A1000A0399 /* OnboardingView.swift in Sources */,
 				24A43EFD2622E75A000A0399 /* SQLiteStore.swift in Sources */,
+				247B11502678C67D00F75EE3 /* AudioPlayer.swift in Sources */,
+				24838A062678AA25002CC4FC /* ShareAttachmentSheet.swift in Sources */,
 				24A43F242623206D000A0399 /* PrivateChatMetadata.swift in Sources */,
 				2443C9E3262C8B780069680D /* PrivateChat.swift in Sources */,
+				24838A0D2678BDA4002CC4FC /* AutoSignal.swift in Sources */,
 				2443C9D6262C73020069680D /* TabViewPresenter.swift in Sources */,
 				24A43EDB2622614F000A0399 /* AppView.swift in Sources */,
 				2443C9F5262D76C10069680D /* MessageCell.swift in Sources */,
+				247B11522678C69F00F75EE3 /* PlayAudioView.swift in Sources */,
+				24838A0B2678B9B1002CC4FC /* VoiceRecorder.swift in Sources */,
 				24A43F182622FF93000A0399 /* SetupProfileView.swift in Sources */,
 				24AE7A9C26775D52005C96EC /* ProfileImage.swift in Sources */,
 				2443C9D3262C719A0069680D /* SettingsView.swift in Sources */,
@@ -301,6 +335,7 @@
 				2443C9D0262C71960069680D /* ChatsView.swift in Sources */,
 				24A43F2D26232FA7000A0399 /* Messenger.swift in Sources */,
 				2443A890262A38980069680D /* CustomActionSheetPresenter.swift in Sources */,
+				24838A092678AAC8002CC4FC /* PinnedChatsPlugin.swift in Sources */,
 				24A43F28262324B0000A0399 /* AsyncView.swift in Sources */,
 				24A43F2026230E82000A0399 /* ContactsView.swift in Sources */,
 				24A43F3B262345A2000A0399 /* AddOnlineContact.swift in Sources */,
@@ -311,6 +346,7 @@
 				2443C9EE262D709A0069680D /* ChatRow.swift in Sources */,
 				24AE7A9E26775E57005C96EC /* EditProfileView.swift in Sources */,
 				2443C9DF262C8B000069680D /* ContactRow.swift in Sources */,
+				24838A0F2678BF83002CC4FC /* AudioSender.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

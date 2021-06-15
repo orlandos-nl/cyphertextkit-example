@@ -21,9 +21,6 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
         
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            for window in UIApplication.shared.windows {
-                window.rootViewController?.dismiss(animated: true)
-            }
             onSelect(nil)
         }
         
