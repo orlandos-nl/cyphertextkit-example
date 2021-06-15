@@ -104,6 +104,7 @@ struct ProcessingView: View {
                                     )
                                 }
                             },
+                            p2pFactories: makeP2PFactories(),
                             database: store,
                             eventHandler: makeEventHandler(emitter: emitter),
                             on: eventLoop

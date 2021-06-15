@@ -7,14 +7,19 @@
 
 import SwiftUI
 import Router
+import CypherMessaging
+import MessagingHelpers
 
 extension Routes {
     static var chats: some Route {
         struct _ChatsViewWrapper: View {
             @Environment(\.messenger) var messenger
+            @Environment(\.plugin) var plugin
             
             var body: some View {
-                ChatsView()
+                ChatsView(
+                    viewModel: ChatsViewModel(emitter: plugin)
+                )
             }
         }
         
@@ -24,11 +29,28 @@ extension Routes {
     }
 }
 
+public final class ChatsViewModel: ObservableObject {
+    let emitter: SwiftUIEventEmitter
+    
+    init(emitter: SwiftUIEventEmitter) {
+        self.emitter = emitter
+    }
+    
+    public var contacts: [TargetConversation.Resolved] {
+        emitter.conversations.sorted(by: sortConversations)
+    }
+    public var objectWillChange: Published<[TargetConversation.Resolved]>.Publisher {
+        emitter.$conversations
+    }
+}
+
 struct ChatsView: View {
     @Environment(\.router) var router
     @Environment(\.plugin) var plugin
     @Environment(\.messenger) var messenger
     @Environment(\.routeViewId) var routeViewId
+    @State var id = UUID()
+    @StateObject var viewModel: ChatsViewModel
     
     var body: some View {
         List {
@@ -59,6 +81,8 @@ struct ChatsView: View {
                     EmptyView()
                 }
             }
-        }.listStyle(InsetListStyle())
+        }.listStyle(InsetListStyle()).onReceive(plugin.conversationChanged) { _ in
+            self.id = UUID()
+        }
     }
 }

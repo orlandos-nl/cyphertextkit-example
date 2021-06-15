@@ -10,28 +10,36 @@ import NIO
 import CypherMessaging
 import MessagingHelpers
 
-func makeEventEmitter() -> SwiftUIEventEmitter {
-    SwiftUIEventEmitter { lhs, rhs in
-        switch (lhs.isPinned, rhs.isPinned) {
-        case (true, true), (false, false):
-            ()
-        case (true, false):
-            return true
-        case (false, true):
-            return false
-        }
-        
-        switch (lhs.lastActivity, rhs.lastActivity) {
-        case (.some(let lhs), .some(let rhs)):
-            return lhs > rhs
-        case (.some, .none):
-            return true
-        case (.none, .some):
-            return false
-        case (.none, .none):
-            return true
-        }
+func sortConversations(lhs: TargetConversation.Resolved, rhs: TargetConversation.Resolved) -> Bool {
+    switch (lhs.isPinned, rhs.isPinned) {
+    case (true, true), (false, false):
+        ()
+    case (true, false):
+        return true
+    case (false, true):
+        return false
     }
+    
+    switch (lhs.lastActivity, rhs.lastActivity) {
+    case (.some(let lhs), .some(let rhs)):
+        return lhs > rhs
+    case (.some, .none):
+        return true
+    case (.none, .some):
+        return false
+    case (.none, .none):
+        return true
+    }
+}
+
+func makeEventEmitter() -> SwiftUIEventEmitter {
+    SwiftUIEventEmitter(sortChats: sortConversations)
+}
+
+func makeP2PFactories() -> [P2PTransportClientFactory] {
+    return [
+        IPv6TCPP2PTransportClientFactory()
+    ]
 }
 
 func makeEventHandler(emitter: SwiftUIEventEmitter) -> PluginEventHandler {
@@ -74,6 +82,7 @@ struct WorkspacesApp: App {
                                    eventLoop: eventLoop
                             )
                         },
+                        p2pFactories: makeP2PFactories(),
                         database: store,
                         eventHandler: makeEventHandler(emitter: emitter),
                         on: eventLoop

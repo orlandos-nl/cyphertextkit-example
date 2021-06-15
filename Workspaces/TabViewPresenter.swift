@@ -20,13 +20,17 @@ extension Routes {
             
             var body: some View {
                 TabView(selection: $selection) {
-                    ContactsView().tabItem {
+                    ContactsView(
+                        viewModel: ContactsViewModel(emitter: plugin)
+                    ).tabItem {
                         Image(systemName: "person.3")
                         
                         Text(BottomBarItem.contacts.title)
                     }.tag(BottomBarItem.contacts).badge(unacceptedContacts)
                     
-                    ChatsView().tabItem {
+                    ChatsView(
+                        viewModel: ChatsViewModel(emitter: plugin)
+                    ).tabItem {
                         Image(systemName: "text.bubble")
                         
                         Text(BottomBarItem.chats.title)
@@ -44,6 +48,14 @@ extension Routes {
                 }.task {
                     await recalculateBadges()
                 }.onReceive(plugin.conversationChanged) { _ in
+                    detach {
+                        await recalculateBadges()
+                    }
+                }.onReceive(plugin.conversationAdded) { _ in
+                    detach {
+                        await recalculateBadges()
+                    }
+                }.onReceive(plugin.contactAdded) { _ in
                     detach {
                         await recalculateBadges()
                     }

@@ -18,12 +18,6 @@ final class VoiceRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
     private(set) var startDate: Date?
     private(set) var length: TimeInterval?
     
-    var timeLeft: Int? {
-        startDate.map { startDate in
-            Int((60 - abs(startDate.timeIntervalSinceNow)).rounded(.up))
-        }
-    }
-    
     init?(
         messenger: CypherMessenger,
         isRecording: Binding<Bool>,
@@ -63,7 +57,9 @@ final class VoiceRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
             return
         }
         
-        if let length = self.length, length <= 0.5 {
+        if let length = self.length, length <= 1.5 {
+            isRecording = false
+            started = false
             return
         }
         

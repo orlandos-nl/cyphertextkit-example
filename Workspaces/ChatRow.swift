@@ -56,7 +56,7 @@ struct ChatRow: View {
     var body: some View {
         RouterLink(to: Routes.privateChat(privateChat, contact: contact)) {
             HStack {
-                ProfileImage(data: contact.image)
+                ContactImage(contact: contact)
                     .frame(width: 38, height: 38)
                     .overlay(Group {
                         if

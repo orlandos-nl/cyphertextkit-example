@@ -9,14 +9,18 @@ import BSON
 import SwiftUI
 import CypherMessaging
 import Router
+import MessagingHelpers
 
 extension Routes {
     static var contacts: some Route {
         struct _ContactsViewWrapper: View {
             @Environment(\.messenger) var messenger
+            @Environment(\.plugin) var plugin
             
             var body: some View {
-                ContactsView()
+                ContactsView(
+                    viewModel: ContactsViewModel(emitter: plugin)
+                )
             }
         }
         
@@ -26,14 +30,29 @@ extension Routes {
     }
 }
 
+public final class ContactsViewModel: ObservableObject {
+    let emitter: SwiftUIEventEmitter
+    
+    init(emitter: SwiftUIEventEmitter) {
+        self.emitter = emitter
+    }
+    
+    public var contacts: [Contact] {
+        emitter.contacts
+    }
+    public var objectWillChange: Published<[Contact]>.Publisher {
+        emitter.$contacts
+    }
+}
+
 struct ContactsView: View {
     @Environment(\.router) var router
     @Environment(\.routeViewId) var routeViewId
-    @Environment(\.plugin) var plugin
+    @StateObject var viewModel: ContactsViewModel
     
     var body: some View {
         List {
-            if plugin.contacts.isEmpty {
+            if viewModel.contacts.isEmpty {
                 Text("No Contacts Yet")
                     .font(.title)
                     .foregroundColor(.gray)
@@ -47,7 +66,7 @@ struct ContactsView: View {
                     )
                 }.font(.system(size: 15, weight: .medium))
             } else {
-                ForEach(plugin.contacts) { contact in
+                ForEach(viewModel.contacts) { contact in
                     ContactRow(contact: contact)
                 }
             }
