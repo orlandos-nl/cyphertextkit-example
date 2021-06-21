@@ -45,7 +45,11 @@ struct ChatRow: View {
     @Environment(\.plugin) var plugin
     @StateObject var mostRecentMessage: MostRecentMessage<PrivateChat>
     
-    init(contact: Contact, privateChat: PrivateChat, mostRecentMessage: MostRecentMessage<PrivateChat>) {
+    init(
+        contact: Contact,
+        privateChat: PrivateChat,
+        mostRecentMessage: MostRecentMessage<PrivateChat>
+    ) {
         self.contact = contact
         self.privateChat = privateChat
         self._isPinned = .init(wrappedValue: privateChat.isPinned)
@@ -54,11 +58,21 @@ struct ChatRow: View {
     }
     
     var body: some View {
-        RouterLink(to: Routes.privateChat(privateChat, contact: contact)) {
-            HStack {
+        NavigationLink(
+            destination: AsyncView(run: { () async throws -> AnyChatMessageCursor in
+                try await privateChat.cursor(sortedBy: .descending)
+            }) { cursor in
+                PrivateChatView(
+                    chat: privateChat,
+                    contact: contact,
+                    cursor: cursor
+                )
+            }
+        ) {
+            HStack(alignment: .top) {
                 ContactImage(contact: contact)
-                    .frame(width: 38, height: 38)
-                    .overlay(Group {
+                    .frame(width: 44, height: 44)
+                    .overlay(alignment: .topTrailing) {
                         if
                             let message = mostRecentMessage.message,
                             message.sender == contact.username,
@@ -67,12 +81,14 @@ struct ChatRow: View {
                             Circle()
                                 .fill(Color.accentColor)
                                 .frame(width: 12, height: 12)
+                                .transition(.scale(scale: 0.1, anchor: .center).animation(.easeInOut))
                         } else if isUnread {
                             Circle()
                                 .fill(Color.accentColor)
                                 .frame(width: 12, height: 12)
+                                .transition(.scale(scale: 0.1, anchor: .center).animation(.easeInOut))
                         }
-                    }, alignment: .topTrailing)
+                    }
                 
                 VStack {
                     HStack {
@@ -111,22 +127,22 @@ struct ChatRow: View {
                                     .foregroundColor(.gray)
                             }
                         } else {
-                            Text("<Chat Started>")
+                            Text("...")
                                 .font(.system(size: 12, weight: .light))
                                 .foregroundColor(.gray)
                         }
                         
                         Spacer()
                         
-                        if isPinned {
+                        if isPinned {   
                             Text(Image(systemName: "pin"))
                                 .font(.system(size: 12, weight: .light))
                                 .foregroundColor(.gray)
                         }
                     }
-                }.frame(height: 38).background(Color.almostClear)
+                }.frame(height: 44).background(Color.almostClear)
             }
-        }.contextMenu {
+        }.padding(.vertical, 4).contextMenu {
             if !isUnread {
                 Button(role: nil) {
                     self.isUnread = true

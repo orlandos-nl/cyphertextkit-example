@@ -37,28 +37,32 @@ struct SettingsView: View {
     
     var body: some View {
         Form {
-            RouterLink(
-                to: Routes.editProfile($metadata)
-            ) {
-                HStack {
-                    ProfileImage(data: metadata.image)
-                        .frame(width: 44, height: 44)
-                    
-                    VStack(alignment: .leading) {
-                        Text("@" + messenger.username.raw)
-                            .font(.system(size: 16, weight: .medium))
-                            .bold()
+            Section(header: "My Profile") {
+                RouterLink(
+                    to: Routes.editProfile($metadata)
+                ) {
+                    HStack {
+                        ProfileImage(data: metadata.image)
+                            .frame(width: 44, height: 44)
                         
-                        Text(metadata.status ?? "Available")
-                            .font(.system(size: 12, weight: .light))
+                        VStack(alignment: .leading) {
+                            Text("@" + messenger.username.raw)
+                                .font(.system(size: 16, weight: .medium))
+                                .bold()
+                            
+                            Text(metadata.status ?? "Available")
+                                .font(.system(size: 12, weight: .light))
+                                .foregroundColor(.gray)
+                        }.frame(height: 44)
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
                             .foregroundColor(.gray)
-                    }.frame(height: 38)
-                    
-                    Spacer()
-                    
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(.gray)
-                }.background(Color.almostClear)
+                    }
+                    .padding(.vertical, 8)
+                    .background(Color.almostClear)
+                }
             }
         }.navigationTitle("Settings")
     }

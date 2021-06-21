@@ -26,6 +26,9 @@
 		24838A0B2678B9B1002CC4FC /* VoiceRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A0A2678B9B1002CC4FC /* VoiceRecorder.swift */; };
 		24838A0D2678BDA4002CC4FC /* AutoSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A0C2678BDA4002CC4FC /* AutoSignal.swift */; };
 		24838A0F2678BF83002CC4FC /* AudioSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A0E2678BF83002CC4FC /* AudioSender.swift */; };
+		248480C9267C9EF8008A88AF /* ChatBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248480C8267C9EF8008A88AF /* ChatBar.swift */; };
+		248480CB267E1F8D008A88AF /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248480CA267E1F8D008A88AF /* ImageViewer.swift */; };
+		248480CD267FABC0008A88AF /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 248480CC267FABC0008A88AF /* Documentation.docc */; };
 		24A43ED92622614F000A0399 /* WorkspacesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43ED82622614F000A0399 /* WorkspacesApp.swift */; };
 		24A43EDB2622614F000A0399 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43EDA2622614F000A0399 /* AppView.swift */; };
 		24A43EDD26226151000A0399 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24A43EDC26226151000A0399 /* Assets.xcassets */; };
@@ -37,7 +40,6 @@
 		24A43F182622FF93000A0399 /* SetupProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43F172622FF93000A0399 /* SetupProfileView.swift */; };
 		24A43F1B26230345000A0399 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43F1A26230345000A0399 /* CameraView.swift */; };
 		24A43F2026230E82000A0399 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43F1F26230E82000A0399 /* ContactsView.swift */; };
-		24A43F242623206D000A0399 /* PrivateChatMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43F232623206D000A0399 /* PrivateChatMetadata.swift */; };
 		24A43F28262324B0000A0399 /* AsyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43F27262324B0000A0399 /* AsyncView.swift */; };
 		24A43F2D26232FA7000A0399 /* Messenger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43F2C26232FA7000A0399 /* Messenger.swift */; };
 		24A43F36262334AB000A0399 /* AddLocalContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43F35262334AB000A0399 /* AddLocalContact.swift */; };
@@ -72,6 +74,9 @@
 		24838A0A2678B9B1002CC4FC /* VoiceRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecorder.swift; sourceTree = "<group>"; };
 		24838A0C2678BDA4002CC4FC /* AutoSignal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSignal.swift; sourceTree = "<group>"; };
 		24838A0E2678BF83002CC4FC /* AudioSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSender.swift; sourceTree = "<group>"; };
+		248480C8267C9EF8008A88AF /* ChatBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBar.swift; sourceTree = "<group>"; };
+		248480CA267E1F8D008A88AF /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
+		248480CC267FABC0008A88AF /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		24A43ED52622614F000A0399 /* Workspaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Workspaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24A43ED82622614F000A0399 /* WorkspacesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspacesApp.swift; sourceTree = "<group>"; };
 		24A43EDA2622614F000A0399 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
@@ -85,7 +90,6 @@
 		24A43F172622FF93000A0399 /* SetupProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupProfileView.swift; sourceTree = "<group>"; };
 		24A43F1A26230345000A0399 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		24A43F1F26230E82000A0399 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
-		24A43F232623206D000A0399 /* PrivateChatMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateChatMetadata.swift; sourceTree = "<group>"; };
 		24A43F27262324B0000A0399 /* AsyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncView.swift; sourceTree = "<group>"; };
 		24A43F2A26232768000A0399 /* Workspaces.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Workspaces.entitlements; sourceTree = "<group>"; };
 		24A43F2C26232FA7000A0399 /* Messenger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messenger.swift; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 		24A43ECC2622614F000A0399 = {
 			isa = PBXGroup;
 			children = (
+				248480CC267FABC0008A88AF /* Documentation.docc */,
 				24E38F72266F99F500A3B43B /* Packages */,
 				24A43ED72622614F000A0399 /* Workspaces */,
 				24A43ED62622614F000A0399 /* Products */,
@@ -148,13 +153,15 @@
 				24838A072678AABC002CC4FC /* Plugins */,
 				24A43F2A26232768000A0399 /* Workspaces.entitlements */,
 				24A43ED82622614F000A0399 /* WorkspacesApp.swift */,
+				248480C8267C9EF8008A88AF /* ChatBar.swift */,
+				24A43F27262324B0000A0399 /* AsyncView.swift */,
 				24838A0326778BC5002CC4FC /* AppDelegate.swift */,
 				2443C9E2262C8B780069680D /* PrivateChat.swift */,
 				24838A0A2678B9B1002CC4FC /* VoiceRecorder.swift */,
 				24838A052678AA25002CC4FC /* ShareAttachmentSheet.swift */,
 				247B11512678C69F00F75EE3 /* PlayAudioView.swift */,
 				247B114F2678C67D00F75EE3 /* AudioPlayer.swift */,
-				24A43F2226232067000A0399 /* Metadata */,
+				248480CA267E1F8D008A88AF /* ImageViewer.swift */,
 				24A43EF126226AB8000A0399 /* SetupView.swift */,
 				24838A0E2678BF83002CC4FC /* AudioSender.swift */,
 				24AE7A9D26775E57005C96EC /* EditProfileView.swift */,
@@ -177,11 +184,11 @@
 				2443C9F0262D721A0069680D /* Text+Date.swift */,
 				2443C9D5262C73020069680D /* TabViewPresenter.swift */,
 				24A43EED262261A1000A0399 /* OnboardingView.swift */,
+				24AE7A9B26775D52005C96EC /* ProfileImage.swift */,
 				24A43EDA2622614F000A0399 /* AppView.swift */,
 				24A43EDC26226151000A0399 /* Assets.xcassets */,
 				24A43EE126226151000A0399 /* Info.plist */,
 				24A43EDE26226151000A0399 /* Preview Content */,
-				24AE7A9B26775D52005C96EC /* ProfileImage.swift */,
 			);
 			path = Workspaces;
 			sourceTree = "<group>";
@@ -192,15 +199,6 @@
 				24A43EDF26226151000A0399 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		24A43F2226232067000A0399 /* Metadata */ = {
-			isa = PBXGroup;
-			children = (
-				24A43F232623206D000A0399 /* PrivateChatMetadata.swift */,
-				24A43F27262324B0000A0399 /* AsyncView.swift */,
-			);
-			path = Metadata;
 			sourceTree = "<group>";
 		};
 		24E38F72266F99F500A3B43B /* Packages */ = {
@@ -317,7 +315,6 @@
 				24A43EFD2622E75A000A0399 /* SQLiteStore.swift in Sources */,
 				247B11502678C67D00F75EE3 /* AudioPlayer.swift in Sources */,
 				24838A062678AA25002CC4FC /* ShareAttachmentSheet.swift in Sources */,
-				24A43F242623206D000A0399 /* PrivateChatMetadata.swift in Sources */,
 				2443C9E3262C8B780069680D /* PrivateChat.swift in Sources */,
 				24838A0D2678BDA4002CC4FC /* AutoSignal.swift in Sources */,
 				2443C9D6262C73020069680D /* TabViewPresenter.swift in Sources */,
@@ -327,6 +324,7 @@
 				24838A0B2678B9B1002CC4FC /* VoiceRecorder.swift in Sources */,
 				24A43F182622FF93000A0399 /* SetupProfileView.swift in Sources */,
 				24AE7A9C26775D52005C96EC /* ProfileImage.swift in Sources */,
+				248480CB267E1F8D008A88AF /* ImageViewer.swift in Sources */,
 				2443C9D3262C719A0069680D /* SettingsView.swift in Sources */,
 				24A43EF226226AB8000A0399 /* SetupView.swift in Sources */,
 				2443C9F8262D7C500069680D /* ExpandingTextView.swift in Sources */,
@@ -336,6 +334,7 @@
 				24A43F2D26232FA7000A0399 /* Messenger.swift in Sources */,
 				2443A890262A38980069680D /* CustomActionSheetPresenter.swift in Sources */,
 				24838A092678AAC8002CC4FC /* PinnedChatsPlugin.swift in Sources */,
+				248480C9267C9EF8008A88AF /* ChatBar.swift in Sources */,
 				24A43F28262324B0000A0399 /* AsyncView.swift in Sources */,
 				24A43F2026230E82000A0399 /* ContactsView.swift in Sources */,
 				24A43F3B262345A2000A0399 /* AddOnlineContact.swift in Sources */,
@@ -343,6 +342,7 @@
 				24838A0426778BC5002CC4FC /* AppDelegate.swift in Sources */,
 				2443C9F1262D721A0069680D /* Text+Date.swift in Sources */,
 				24A43F1B26230345000A0399 /* CameraView.swift in Sources */,
+				248480CD267FABC0008A88AF /* Documentation.docc in Sources */,
 				2443C9EE262D709A0069680D /* ChatRow.swift in Sources */,
 				24AE7A9E26775E57005C96EC /* EditProfileView.swift in Sources */,
 				2443C9DF262C8B000069680D /* ContactRow.swift in Sources */,

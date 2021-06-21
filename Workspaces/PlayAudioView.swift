@@ -98,7 +98,10 @@ struct RecordingProgressSlider: View {
                 Circle()
                     .fill(Color.white)
                     .frame(width: 14, height: 14)
-                    .overlay(Circle().fill(foregroundColor).frame(width: 12, height: 12))
+                    .overlay {
+                        Circle()
+                            .fill(foregroundColor).frame(width: 12, height: 12)
+                    }
                     // - 7 is for half of the circle
                     .padding(.leading, (proxy.size.width * CGFloat(visibleFraction)) - 7)
                     .gesture(DragGesture(minimumDistance: 10, coordinateSpace: .global).onChanged { newValue in

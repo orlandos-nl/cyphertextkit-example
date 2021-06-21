@@ -11,7 +11,6 @@ import UniformTypeIdentifiers
 struct ImagePicker: UIViewControllerRepresentable {
     let source: UIImagePickerController.SourceType
     let onSelect: (UIImage?) -> ()
-    @Environment(\.preferredMaximumLayoutWidth) var a
     
     final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         let onSelect: (UIImage?) -> ()
@@ -36,7 +35,9 @@ struct ImagePicker: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let uiViewController = UIImagePickerController()
         uiViewController.sourceType = source
-        uiViewController.cameraCaptureMode = .photo
+        if source == .camera {
+            uiViewController.cameraCaptureMode = .photo
+        }
         uiViewController.delegate = context.coordinator
         uiViewController.mediaTypes = [UTType.image.identifier]
         return uiViewController

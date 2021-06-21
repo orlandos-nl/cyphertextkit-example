@@ -12,6 +12,7 @@ import Router
 struct ContactRow: View {
     let contact: Contact
     @State var status: String
+    @Environment(\.messenger) var messenger
     @Environment(\.plugin) var plugin
     
     init(contact: Contact) {
@@ -20,10 +21,30 @@ struct ContactRow: View {
     }
     
     var body: some View {
-        RouterLink(to: Routes.contactPrivateChat(contact: contact)) {
+        NavigationLink {
+            AsyncView(run: { () async throws -> (PrivateChat, AnyChatMessageCursor) in
+                let chat = try await messenger.createPrivateChat(with: contact.username)
+                let cursor = try await chat.cursor(sortedBy: .descending)
+                return (chat, cursor)
+            }) { chat, cursor in
+                PrivateChatView(
+                    chat: chat,
+                    contact: contact,
+                    cursor: cursor
+                )
+            }
+        } label: {
             HStack(alignment: .top) {
                 ContactImage(contact: contact)
-                    .frame(width: 38, height: 38)
+                    .frame(width: 44, height: 44)
+                    .overlay(alignment: .topTrailing) {
+                        if contact.ourState == .undecided {
+                            Circle()
+                                .fill(Color.accentColor)
+                                .frame(width: 12, height: 12)
+                                .transition(.scale(scale: 0.1, anchor: .center).animation(.easeInOut))
+                        }
+                    }
                 
                 VStack(alignment: .leading) {
                     Text(contact.username.raw)
@@ -32,11 +53,10 @@ struct ContactRow: View {
                     Text(contact.status ?? "Available")
                         .font(.system(size: 12, weight: .light))
                         .foregroundColor(.gray)
-                }.frame(height: 38)
+                }.frame(height: 44)
                 
                 Spacer()
             }
-            .padding(.horizontal, 16)
             .padding(.vertical, 8)
             .background(Color.almostClear)
         }.onReceive(plugin.contactChanged) { changedContact in

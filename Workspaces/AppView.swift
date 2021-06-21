@@ -43,32 +43,51 @@ extension EnvironmentValues {
 }
 
 
-enum Routes {}
+enum Routes {
+    static let loading = SimpleRoute {
+        ProgressView()
+    }
+}
 
 struct AppView: View {
-    @State var router = WorkspacesRouter(navigationController: WorkspaceNavigationController())
     @State var selection = BottomBarItem.chats
+    @Environment(\.scenePhase) var scenePhase
+    @Environment(\.messenger) var messenger
     
     var body: some View {
-        UINavigationControllerRouterView(router: router)
-            .edgesIgnoringSafeArea(.all)
-            .onAppear {
-                router.replaceRoot(with: Routes.tabView(selection: $selection))
-                UIApplication.shared.registerForRemoteNotifications()
-                UNUserNotificationCenter.current().getNotificationSettings { settings in
-                    if settings.badgeSetting == .enabled {
-                        return
-                    } else if settings.soundSetting == .enabled {
-                        return
-                    } else if settings.alertSetting == .enabled {
-                        return
-                    }
-                    
-                    UNUserNotificationCenter.current().requestAuthorization(options: [
-                        .badge, .sound, .alert
-                    ]) { _, _ in }
+        NavigationView {
+            ChatTabView(selection: $selection)
+        }.onAppear {
+            UIApplication.shared.registerForRemoteNotifications()
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                if settings.badgeSetting == .enabled {
+                    return
+                } else if settings.soundSetting == .enabled {
+                    return
+                } else if settings.alertSetting == .enabled {
+                    return
                 }
+                
+                UNUserNotificationCenter.current().requestAuthorization(options: [
+                    .badge, .sound, .alert
+                ]) { _, _ in }
             }
+        }.onChange(of: scenePhase) { scenePhase in
+            switch scenePhase {
+            case .background:
+                detach {
+                    try await messenger.transport.disconnect()
+                }
+            case .active:
+                detach {
+                    try await messenger.transport.reconnect()
+                }
+            case .inactive:
+                ()
+            @unknown default:
+                ()
+            }
+        }
     }
 }
 

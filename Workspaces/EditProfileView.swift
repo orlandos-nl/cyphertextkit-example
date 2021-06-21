@@ -58,12 +58,13 @@ struct EditProfileView: View {
             Section(header: Text("Profile")) {
                 HStack {
                     ProfileImage(data: metadata.image)
-                        .overlay(Circle().foregroundColor(Color.black.opacity(0.7)))
-                        .overlay(
+                        .overlay {
+                            Circle().foregroundColor(Color.black.opacity(0.7))
+                        }.overlay {
                             Image(systemName: "camera")
                                 .padding(8)
                                 .foregroundColor(.white)
-                        )
+                        }
                         .frame(width: 64, height: 64)
                         .onTapGesture {
                             self.selectPicture = true

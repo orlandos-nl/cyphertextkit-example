@@ -49,45 +49,62 @@ struct ContactsView: View {
     @Environment(\.router) var router
     @Environment(\.routeViewId) var routeViewId
     @StateObject var viewModel: ContactsViewModel
+    @State var searchText = ""
+    
+    var contacts: [Contact] {
+        let matchingUsers: [Contact]
+        if searchText.isEmpty {
+            matchingUsers = viewModel.contacts
+        } else {
+            matchingUsers = viewModel.contacts.filter { $0.nickname.lowercased().contains(searchText.lowercased()) }
+        }
+    
+        return matchingUsers.sorted { lhs, rhs in
+            if lhs.isMutualFriendship != rhs.isMutualFriendship {
+                // We care about undecided friend requests first
+                // Then friendship before non-friendship
+                switch (lhs.ourState, rhs.ourState) {
+                case (.undecided, _):
+                    return true
+                case (_, .undecided):
+                    return false
+                case (.friend, _):
+                    return true
+                case (_, .friend):
+                    return false
+                case (_, _):
+                    // Don't filter based on our state
+                    ()
+                }
+            }
+            
+            // Ascending by nickname
+            return lhs.nickname.lowercased() < rhs.nickname.lowercased()
+        }
+    }
     
     var body: some View {
-        List {
-            if viewModel.contacts.isEmpty {
-                Text("No Contacts Yet")
-                    .font(.title)
-                    .foregroundColor(.gray)
-                    .padding(.top, 24)
-                    .padding(.bottom, 12)
-                
-                Button("Add Contact") {
-                    router?.navigate(
-                        to: Routes.addOnlineContact,
-                        using: CustomActionSheetPresenter()
-                    )
-                }.font(.system(size: 15, weight: .medium))
-            } else {
-                ForEach(viewModel.contacts) { contact in
-                    ContactRow(contact: contact)
-                }
-            }
-        }
-        .navigationTitle("Contacts")
-        .navigationBarItems(
-            trailing: Menu(content: {
-                Button("Local Contact") {
-                    router?.navigate(to: Routes.addLocalContact, using: SheetPresenter())
+        Form {
+            Section(header: "\(viewModel.contacts.count) contacts") {
+                if viewModel.contacts.isEmpty {
+                    Text("No Contacts Yet")
+                        .foregroundColor(.gray)
                 }
                 
-                Button("Online Contact") {
-                    router?.navigate(
-                        to: Routes.addOnlineContact,
-                        using: CustomActionSheetPresenter()
-                    )
+                ForEach(contacts) { contact in
+                    switch contact.ourState {
+                    case .undecided, .friend:
+                        ContactRow(contact: contact)
+                    case .notFriend, .blocked:
+                        ContactRow(contact: contact).opacity(0.4)
+                    }
                 }
-            }) {
-                Image(systemName: "plus")
             }
-        )
+            
+            Section(header: "Actions") {
+                NavigationLink("Add Online Contact", destination: AddOnlineContact())
+            }
+        }.searchable(text: $searchText).navigationBarTitle("Contacts")
     }
 }
 

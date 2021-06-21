@@ -49,7 +49,6 @@ struct ChatsView: View {
     @Environment(\.plugin) var plugin
     @Environment(\.messenger) var messenger
     @Environment(\.routeViewId) var routeViewId
-    @State var id = UUID()
     @StateObject var viewModel: ChatsViewModel
     
     var body: some View {
@@ -66,7 +65,9 @@ struct ChatsView: View {
                                 plugin: plugin
                             )
                         ).swipeActions(edge: .trailing) {
-                            Button(role: .destructive, action: {}) {
+                            Button(role: .destructive, action: {
+                                // TODO: Close chat
+                            }) {
                                 ZStack {
                                     Color.red
                                     Image(systemName: "xmark.octagon.fill")
@@ -81,8 +82,8 @@ struct ChatsView: View {
                     EmptyView()
                 }
             }
-        }.listStyle(InsetListStyle()).onReceive(plugin.conversationChanged) { _ in
-            self.id = UUID()
         }
+        .listStyle(InsetListStyle())
+        .navigationBarTitle("Chats")
     }
 }
