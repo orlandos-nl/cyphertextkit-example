@@ -7,11 +7,63 @@
 
 import SwiftUI
 import CypherMessaging
+import UniformTypeIdentifiers
+
+extension UTType {
+    init(filename: String) {
+        if
+            let fileExtension = filename.split(separator: ".").last,
+            let type = UTType(filenameExtension: String(fileExtension))
+        {
+            self = type
+        } else {
+            self = .data
+        }
+    }
+}
+
+struct SharedFile: FileDocument {
+    private static var supportedContentTypes: Set<UTType> = [ .item, .content, .data ]
+    
+    static var readableContentTypes: [UTType] { Array(supportedContentTypes) }
+    static var writableContentTypes: [UTType] { Array(supportedContentTypes) }
+    
+    let data: Data
+    let filename: String?
+    init(configuration: ReadConfiguration) throws {
+        struct InvalidFile: Error {}
+        guard let data = configuration.file.regularFileContents else {
+            throw InvalidFile()
+        }
+        self.data = data
+        self.filename = configuration.file.preferredFilename
+        
+        if let filename = self.filename {
+            SharedFile.supportedContentTypes.insert(UTType(filename: filename))
+        }
+    }
+    
+    init(data: Data, filename: String?) {
+        self.data = data
+        self.filename = filename
+        if let filename = filename {
+            SharedFile.supportedContentTypes.insert(UTType(filename: filename))
+        }
+    }
+    
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        let wrapper = FileWrapper(regularFileWithContents: data)
+        wrapper.preferredFilename = filename
+        wrapper.filename = filename
+        return wrapper
+    }
+}
 
 struct MessageCell: View {
     @Environment(\.messenger) var messenger
     @Environment(\.plugin) var plugin
     @State var message: AnyChatMessage
+    @State var action = false
     
     var isWrittenByMe: Bool {
         message.raw.senderUser == messenger.username
@@ -49,13 +101,18 @@ struct MessageCell: View {
             switch message.messageType {
             case .text:
                 box {
-                    Text(message.text)
+                    RichText(message.text)
+                    #if os(macOS)
+                        .textSelection(.enabled)
+                    #endif
                 }.contextMenu {
+                    #if os(iOS)
                     Button {
                         UIPasteboard.general.string = message.text
                     } label: {
                         Label("Copy", systemImage: "doc.on.doc")
                     }
+                    #endif
                 }
             case .media where message.messageSubtype == "audio":
                 if
@@ -69,6 +126,37 @@ struct MessageCell: View {
                 }
             case .media where message.messageSubtype == "image/*":
                 imageView
+            case .media where message.messageSubtype == "any":
+                if
+                    let name = message.metadata["name"] as? String,
+                    let blob = message.metadata["blob"] as? Binary
+                {
+                    box {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(name)
+                                .fontWeight(.medium)
+                            
+                            HStack(spacing: 4) {
+                                Image(systemName: "arrow.down.circle")
+                                    .foregroundColor(.accentColor)
+                                
+                                Text(NSNumber(value: blob.count), formatter: ByteCountFormatter())
+                                    .foregroundColor(.gray)
+                            }
+                        }.padding(8)
+                    }.onTapGesture {
+                        action = true
+                    }.fileExporter(
+                        isPresented: $action,
+                        document: SharedFile(
+                            data: blob.data,
+                            filename: name
+                        ),
+                        contentType: UTType(filename: name),
+                        defaultFilename: name,
+                        onCompletion: { _ in }
+                    )
+                }
             case .magic, .media:
                 EmptyView()
             }
@@ -94,29 +182,21 @@ struct MessageCell: View {
                 let binary = message.metadata["thumbnail"] as? Binary,
                 let thumbnail = Image(data: binary.data)
             {
-                NavigationLink(destination: {
-                    ImageViewer(image: image)
-                }) {
-                    box {
-                        thumbnail
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(maxHeight: 250)
-                            .drawingGroup()
-                    }.fullSized()
-                }
+                box {
+                    thumbnail
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(maxHeight: 250)
+                        .drawingGroup()
+                }.fullSized()
             } else {
-                NavigationLink(destination: {
-                    ImageViewer(image: image)
-                }) {
-                    box {
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(maxHeight: 250)
-                            .drawingGroup()
-                    }.fullSized()
-                }
+                box {
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(maxHeight: 250)
+                        .drawingGroup()
+                }.fullSized()
             }
         }
     }

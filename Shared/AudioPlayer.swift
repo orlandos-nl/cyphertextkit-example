@@ -36,7 +36,9 @@ final class AudioPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
     }
     
     func play() {
+        #if os(iOS)
         _ = try? AVAudioSession.sharedInstance().setCategory(.playback)
+        #endif
         playing = true
         player.play()
         emitPlayChange()

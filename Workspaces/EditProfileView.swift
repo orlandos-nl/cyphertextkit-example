@@ -7,15 +7,6 @@
 
 import SwiftUI
 import MessagingHelpers
-import Router
-
-extension Routes {
-    static func editProfile(_ metadata: Binding<ContactMetadata>) -> some Route {
-        return SimpleRoute {
-            EditProfileView(metadata: metadata, status: metadata.status.wrappedValue ?? "Available")
-        }
-    }
-}
 
 #if canImport(UIKit)
 import UIKit

@@ -8,7 +8,6 @@
 import SwiftUI
 import CypherMessaging
 import MessagingHelpers
-import Router
 
 extension EnvironmentValues {
     private struct SwiftUIEventEmitterKey: EnvironmentKey {
@@ -39,13 +38,6 @@ extension EnvironmentValues {
         set {
             self[SwiftUIEventEmitterKey.self] = newValue
         }
-    }
-}
-
-
-enum Routes {
-    static let loading = SimpleRoute {
-        ProgressView()
     }
 }
 
@@ -88,24 +80,6 @@ struct AppView: View {
                 ()
             }
         }
-    }
-}
-
-final class WorkspaceNavigationController: UINavigationController {}
-
-final class WorkspacesRouter: UINavigationControllerRouter {
-    override func makeChildRouter<RootRoute: EnvironmentDependentRoute>(
-        rootRoute: RootRoute,
-        environmentObject: RootRoute.EnvironmentObjectDependency,
-        presentationContext: PresentationContext,
-        presenterViewModel: PresenterViewModel
-    ) -> UINavigationControllerRouter {
-        WorkspacesRouter(
-            navigationController: WorkspaceNavigationController(),
-            root: rootRoute,
-            environmentObject,
-            parent: (self, presentationContext)
-        )
     }
 }
 

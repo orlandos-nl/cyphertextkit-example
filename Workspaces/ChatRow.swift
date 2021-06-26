@@ -8,7 +8,6 @@
 import SwiftUI
 import Combine
 import CypherMessaging
-import Router
 import MessagingHelpers
 import SwiftUIX
 

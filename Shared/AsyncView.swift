@@ -14,6 +14,11 @@ struct AsyncView<T, V: View>: View {
     let run: () async throws -> T
     let build: (T) -> V
     
+    init(run: @escaping () async throws -> T, @ViewBuilder build: @escaping (T) -> V) {
+        self.run = run
+        self.build = build
+    }
+    
     var body: some View {
         switch result {
         case .some(.success(let value)):

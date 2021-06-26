@@ -5,42 +5,55 @@ import NIO
 import CypherMessaging
 
 final class VoiceRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
+    #if os(iOS)
     let session = AVAudioSession.sharedInstance()
+    #endif
+    
     let messenger: CypherMessenger
     let id = UUID()
     let recorder: AVAudioRecorder
     @Published private(set) var started = false
     @Binding var soundSample: Float
+    private(set) var lowestSoundSample: Float?
+    private(set) var highestSoundSample: Float?
+    private(set) var allSamples = [Float]()
     let url: URL
     @Binding var isRecording: Bool
-    let onRecording: (Data) async throws -> ()
+    private var onRecording: (Data) async throws -> ()
     private var cancelled = false
     private(set) var startDate: Date?
     private(set) var length: TimeInterval?
     
-    init?(
-        messenger: CypherMessenger,
+    func configure(
         isRecording: Binding<Bool>,
         soundSample: Binding<Float>,
         onRecording: @escaping (Data) async throws -> ()
     ) {
-        self.onRecording = onRecording
-        self.messenger = messenger
         self._isRecording = isRecording
         self._soundSample = soundSample
+        self.onRecording = onRecording
+    }
+    
+    init(
+        messenger: CypherMessenger
+    ) {
+        self.onRecording = { _ in }
+        self.messenger = messenger
+        self._isRecording = .constant(false)
+        self._soundSample = .constant(0)
         
         do {
             self.url = URL(fileURLWithPath: NSTemporaryDirectory())
                 .appendingPathComponent("\(id.uuidString).av")
             
-            let recorderSettings: [String:Any] = [
-                AVFormatIDKey: NSNumber(value: kAudioFormatAppleLossless),
-                AVSampleRateKey: 44100.0,
+            let settings: [String: Any] = [
+                AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+                AVSampleRateKey: 12000.0,
                 AVNumberOfChannelsKey: 1,
                 AVEncoderAudioQualityKey: AVAudioQuality.min.rawValue
             ]
             
-            self.recorder = try AVAudioRecorder(url: url, settings: recorderSettings)
+            self.recorder = try AVAudioRecorder(url: url, settings: settings)
             
             super.init()
             
@@ -48,7 +61,7 @@ final class VoiceRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
             self.recorder.isMeteringEnabled = true
             self.recorder.delegate = self
         } catch {
-            return nil
+            fatalError()
         }
     }
     
@@ -86,6 +99,21 @@ final class VoiceRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
         
         recorder.updateMeters()
         soundSample = recorder.averagePower(forChannel: 0)
+        allSamples.append(soundSample)
+        if let lowestSoundSample = lowestSoundSample {
+            if soundSample < lowestSoundSample {
+                self.lowestSoundSample = soundSample
+            }
+        } else {
+            self.lowestSoundSample = soundSample
+        }
+        if let highestSoundSample = highestSoundSample {
+            if soundSample > highestSoundSample {
+                self.highestSoundSample = soundSample
+            }
+        } else {
+            self.highestSoundSample = soundSample
+        }
         
         DispatchQueue.main.async {
             self.objectWillChange.send()
@@ -97,27 +125,37 @@ final class VoiceRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
     }
     
     func start() async -> Bool {
+        func record() -> Bool {
+            if self.recorder.record() {
+                self.length = nil
+                self.started = true
+                self.isRecording = true
+                self.startDate = Date()
+                self.soundSample = 0
+                self.lowestSoundSample = nil
+                self.highestSoundSample = nil
+                self.allSamples.removeAll(keepingCapacity: true)
+                self.refresh()
+                return true
+            } else {
+                return false
+            }
+        }
+        
+        #if os(iOS)
         if session.recordPermission == .denied {
             return false
         }
         
         func run() -> Bool {
             do {
+                try self.session.setCategory(.playAndRecord)
                 try self.session.setActive(true)
             } catch {
                 return false
             }
             
-            if self.recorder.record() {
-                self.length = nil
-                self.started = true
-                self.isRecording = true
-                self.startDate = Date()
-                self.refresh()
-                return true
-            } else {
-                return false
-            }
+            return record()
         }
         
         if session.recordPermission == .undetermined {
@@ -133,6 +171,9 @@ final class VoiceRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
         }
         
         return run()
+        #else
+        return record()
+        #endif
     }
     
     func stop() {

@@ -229,10 +229,10 @@ fileprivate struct _ExpandingTextView: UIViewRepresentable {
 }
 
 class _UITextView: UITextView {
-    public override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        return false
-    }
-    
+//    public override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+//        return false
+//    }
+//
     public override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -240,4 +240,3 @@ class _UITextView: UITextView {
         textContainer.lineFragmentPadding = 0
     }
 }
-

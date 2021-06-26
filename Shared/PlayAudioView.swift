@@ -16,23 +16,21 @@ struct PlayAudioView: View {
     var body: some View {
         HStack(alignment: .top) {
             if player.playing {
-                Button(action: {
-                    player.pause()
-                    wasPlaying = false
-                }) {
-                    Image(systemName: "pause.fill")
-                }
-                .foregroundColor(foregroundColor)
-                .frame(width: 44, height: 14)
+                Image(systemName: "pause.fill")
+                    .foregroundColor(foregroundColor)
+                    .frame(width: 44, height: 14)
+                    .onTapGesture {
+                        player.pause()
+                        wasPlaying = false
+                    }
             } else {
-                Button(action: {
-                    player.play()
-                    wasPlaying = true
-                }) {
-                    Image(systemName: "play.fill")
-                }
-                .foregroundColor(foregroundColor)
-                .frame(width: 44, height: 14)
+                Image(systemName: "play.fill")
+                    .foregroundColor(foregroundColor)
+                    .frame(width: 44, height: 14)
+                    .onTapGesture {
+                        player.play()
+                        wasPlaying = true
+                    }
             }
             
             RecordingProgressSlider(

@@ -6,25 +6,17 @@
 //
 
 import SwiftUI
-import Router
-
-extension Routes {
-    static func tabView(selection: Binding<BottomBarItem>) -> some Route {
-        return SimpleRoute {
-            ChatTabView(selection: selection)
-        }
-    }
-}
+import CoreImage
+import BSON
 
 struct ChatTabView: View {
     @Binding var selection: BottomBarItem
-    @Environment(\.router) var router
     @Environment(\.messenger) var messenger
     @Environment(\.plugin) var plugin
     @State var unacceptedContacts = 0
     @State var unreadChats = 0
     
-    var body: some View {
+    @ViewBuilder var body: some View {
         TabView(selection: $selection) {
             ContactsView(
                 viewModel: ContactsViewModel(emitter: plugin)
@@ -34,23 +26,25 @@ struct ChatTabView: View {
                 Text(BottomBarItem.contacts.title)
             }.tag(BottomBarItem.contacts).badge(unacceptedContacts)
             
+            #if os(iOS)
             ChatsView(
                 viewModel: ChatsViewModel(emitter: plugin)
             ).tabItem {
                 Image(systemName: "text.bubble")
-                
+
                 Text(BottomBarItem.chats.title)
             }.tag(BottomBarItem.chats).badge(unreadChats)
-            
+
             AsyncView(run: {
                 try await messenger.readProfileMetadata()
             }) { metadata in
                 SettingsView(metadata: metadata)
             }.tabItem {
                 Image(systemName: "gear")
-                
+
                 Text(BottomBarItem.settings.title)
             }.tag(BottomBarItem.settings)
+            #endif
         }.edgesIgnoringSafeArea(.all).task {
             try? await recalculateBadges()
         }.onReceive(plugin.conversationChanged) { _ in

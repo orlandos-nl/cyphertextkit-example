@@ -5,30 +5,10 @@
 //  Created by Joannis Orlandos on 18/04/2021.
 //
 
+import CypherMessaging
 import MessagingHelpers
 import SwiftUI
-import Router
 import Logging
-
-extension Routes {
-    static var settings: some Route {
-        struct _SettingsViewWrapper: View {
-            @Environment(\.messenger) var messenger
-            
-            var body: some View {
-                AsyncView(run: {
-                    try await messenger.readProfileMetadata()
-                }) { metadata in
-                    SettingsView(metadata: metadata)
-                }
-            }
-        }
-        
-        return SimpleRoute {
-            _SettingsViewWrapper()
-        }
-    }
-}
 
 struct SettingsView: View {
     @Environment(\.messenger) var messenger
@@ -38,8 +18,11 @@ struct SettingsView: View {
     var body: some View {
         Form {
             Section(header: "My Profile") {
-                RouterLink(
-                    to: Routes.editProfile($metadata)
+                NavigationLink(
+                    destination: EditProfileView(
+                        metadata: $metadata,
+                        status: metadata.status ?? "Available"
+                    )
                 ) {
                     HStack {
                         ProfileImage(data: metadata.image)
@@ -64,6 +47,56 @@ struct SettingsView: View {
                     .background(Color.almostClear)
                 }
             }
+            
+            Section(header: "Devices") {
+                NavigationLink(
+                    "Add Device",
+                    destination: AddDeviceView()
+                )
+            }
         }.navigationTitle("Settings")
+    }
+}
+
+struct AddDeviceView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.messenger) var messenger
+    @State var config: UserDeviceConfig?
+    
+    var body: some View {
+        if let config = config {
+            Form {
+                Text("Do you want to register this device?")
+                
+                Button("Add Device") {
+                    detach {
+                        try await messenger.addDevice(config)
+                    }
+                    presentationMode.wrappedValue.dismiss()
+                }
+                
+                Button("Cancel") {
+                    presentationMode.wrappedValue.dismiss()
+                }.foregroundColor(.red)
+            }
+        } else {
+            CodeScannerView(codeTypes: [.qr]) { result in
+                switch result {
+                case .success(let code):
+                    guard let data = Data(base64Encoded: code) else {
+                        return
+                    }
+                    
+                    do {
+                        self.config = try BSONDecoder().decode(
+                            UserDeviceConfig.self,
+                            from: Document(data: data)
+                        )
+                    } catch {}
+                case .failure:
+                    ()
+                }
+            }
+        }
     }
 }

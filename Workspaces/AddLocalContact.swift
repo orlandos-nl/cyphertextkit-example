@@ -9,18 +9,10 @@
 import SwiftUI
 import MultipeerConnectivity
 import CypherMessaging
-import Router
-
-extension Routes {
-    static let addLocalContact = SimpleRoute {
-        AddLocalContact()
-    }
-}
 
 struct AddLocalContact: View {
     @State var invitation: Invitation?
-    @Environment(\.router) var router
-    @Environment(\.routeViewId) var routeViewId
+    @Environment(\.presentationMode) var presentationMode
     @Environment(\.messenger) var messenger
     
     var body: some View {
@@ -41,7 +33,7 @@ struct AddLocalContact: View {
                     do {
                         _ = try await messenger.createPrivateChat(with: Username(invitation.peerID.displayName))
                         self.invitation = nil
-                        self.router?.dismissUpToIncluding(routeMatchingId: routeViewId)
+                        presentationMode.wrappedValue.dismiss()
                     } catch {}
                 })
             }

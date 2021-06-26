@@ -1,18 +1,37 @@
 //
-//  WorkspacesApp.swift
-//  Workspaces
+//  macOSApp.swift
+//  macOS
 //
-//  Created by Joannis Orlandos on 11/04/2021.
+//  Created by Joannis Orlandos on 21/06/2021.
 //
 
 import SwiftUI
-import NIO
+import UserNotifications
+import PushKit
+import CallKit
 import CypherMessaging
 import MessagingHelpers
 
+final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
+    // Used for the purpose of a static fallback for the UI's `@Environment(\.appState)
+    weak var cypherMessenger: CypherMessenger?
+    static var voipRegistery: PKPushRegistry?
+    static var pushCredentials: PKPushCredentials?
+    static var token: Data?
+    
+    func application(_ application: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Self.token = deviceToken
+        if let cypherMessenger = cypherMessenger, let transport = cypherMessenger.transport as? VaporTransport {
+            detach {
+                try await transport.registerAPNSToken(deviceToken)
+            }
+        }
+    }
+}
+
 @main
-struct WorkspacesApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+struct macOSApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     @State var exists = SQLiteStore.exists()
     @StateObject var emitter = makeEventEmitter()
@@ -48,6 +67,11 @@ struct WorkspacesApp: App {
             } else {
                 SetupView()
             }
+        }.commands {
+            CommandGroup(replacing: .newItem) {
+                // Don't support new windows
+            }
+            SidebarCommands()
         }
     }
 }

@@ -1,4 +1,3 @@
-#if canImport(UIKit)
 import SwiftUI
 import UserNotifications
 import PushKit
@@ -22,4 +21,3 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
         }
     }
 }
-#endif

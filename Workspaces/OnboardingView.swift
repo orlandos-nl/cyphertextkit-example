@@ -151,36 +151,3 @@ private struct View3: View {
         .padding(.bottom, 22)
     }
 }
-
-struct IconLabelButton: View {
-    let label: Text
-    let icon: Image
-    let action: () -> ()
-    
-    var body: some View {
-        HStack {
-            label
-            icon
-        }
-        .padding(.horizontal, 16)
-        .frame(height: 44)
-        .background(Capsule().fill(Color.white))
-        .onTapGesture(perform: action)
-    }
-}
-
-struct IconButton: View {
-    let icon: Image
-    
-    var body: some View {
-        icon
-            .background(Circle().fill(Color.white))
-            .frame(width: 44, height: 44)
-    }
-}
-
-struct OnboardingView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardingView(onboardingMode: .constant(.onboarding))
-    }
-}

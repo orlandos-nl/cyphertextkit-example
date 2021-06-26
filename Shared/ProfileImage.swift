@@ -32,8 +32,8 @@ struct ProfileImage: View {
     let data: Data?
     
     @ViewBuilder var body: some View {
-        if let data = data, let uiImage = UIImage(data: data) {
-            Image(uiImage: uiImage)
+        if let data = data, let image = Image(data: data) {
+            image
                 .resizable()
                 .scaledToFill()
                 .clipShape(Circle())

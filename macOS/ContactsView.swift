@@ -62,26 +62,30 @@ struct ContactsView: View {
     }
     
     var body: some View {
-        Form {
-            Section(header: "\(viewModel.contacts.count) contacts") {
-                if viewModel.contacts.isEmpty {
-                    Text("No Contacts Yet")
-                        .foregroundColor(.gray)
-                }
-                
-                ForEach(contacts) { contact in
-                    switch contact.ourState {
-                    case .undecided, .friend:
-                        ContactRow(contact: contact)
-                    case .notFriend, .blocked:
-                        ContactRow(contact: contact).opacity(0.4)
-                    }
-                }
+        List {
+            if viewModel.contacts.isEmpty {
+                Text("No Contacts Yet")
+                    .foregroundColor(.gray)
             }
             
-            Section(header: "Actions") {
-                NavigationLink("Add Online Contact", destination: AddOnlineContact())
+            ForEach(contacts) { contact in
+                switch contact.ourState {
+                case .undecided, .friend:
+                    ContactRow(contact: contact)
+                case .notFriend, .blocked:
+                    ContactRow(contact: contact).opacity(0.4)
+                }
             }
-        }.searchable(text: $searchText).navigationBarTitle("Contacts")
+        }
+        .searchable(text: $searchText)
+        #if os(macOS)
+        .accentColor(.white)
+        #endif
+    }
+}
+
+struct AddOnlineContact: View {
+    var body: some View {
+        EmptyView()
     }
 }

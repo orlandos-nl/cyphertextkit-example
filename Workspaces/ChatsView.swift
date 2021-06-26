@@ -6,28 +6,8 @@
 //
 
 import SwiftUI
-import Router
 import CypherMessaging
 import MessagingHelpers
-
-extension Routes {
-    static var chats: some Route {
-        struct _ChatsViewWrapper: View {
-            @Environment(\.messenger) var messenger
-            @Environment(\.plugin) var plugin
-            
-            var body: some View {
-                ChatsView(
-                    viewModel: ChatsViewModel(emitter: plugin)
-                )
-            }
-        }
-        
-        return SimpleRoute {
-            _ChatsViewWrapper()
-        }
-    }
-}
 
 public final class ChatsViewModel: ObservableObject {
     let emitter: SwiftUIEventEmitter
@@ -45,10 +25,8 @@ public final class ChatsViewModel: ObservableObject {
 }
 
 struct ChatsView: View {
-    @Environment(\.router) var router
     @Environment(\.plugin) var plugin
     @Environment(\.messenger) var messenger
-    @Environment(\.routeViewId) var routeViewId
     @StateObject var viewModel: ChatsViewModel
     
     var body: some View {

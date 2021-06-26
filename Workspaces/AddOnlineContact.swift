@@ -62,7 +62,7 @@ struct AddOnlineContact: View {
                     } catch {}
                 }
             }
-        }.navigationBarTitle("Add Contacty")
+        }.navigationBarTitle("Add Contact")
     }
 }
 

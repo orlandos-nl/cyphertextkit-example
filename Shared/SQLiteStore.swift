@@ -298,7 +298,7 @@ final class SQLiteStore: CypherMessengerStore {
         let migrator = Migrator(databases: databases, migrations: migrations, logger: logger, on: eventLoop)
         return migrator.setupIfNeeded().flatMap {
             migrator.prepareBatch()
-        }.map {
+        }.recover { _ in }.map {
             return SQLiteStore(
                 databases: databases,
                 database: databases.database(logger: logger, on: eventLoop)!
