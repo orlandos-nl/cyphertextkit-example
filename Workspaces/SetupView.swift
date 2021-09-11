@@ -46,7 +46,7 @@ struct SetupView: View {
                             removal: AnyTransition.identity
                         )
                     )
-                    .environment(\.messenger, messenger)
+                    .environment(\._messenger, messenger)
                     .environment(\.plugin, emitter)
             }
         }
@@ -106,8 +106,7 @@ struct ProcessingView: View {
                             },
                             p2pFactories: makeP2PFactories(),
                             database: store,
-                            eventHandler: makeEventHandler(emitter: emitter),
-                            on: eventLoop
+                            eventHandler: makeEventHandler(emitter: emitter)
                         )
                         
                         await emitter.boot(for: messenger)

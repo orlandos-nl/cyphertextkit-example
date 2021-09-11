@@ -42,12 +42,13 @@ struct AddOnlineContact: View {
             }
             
             Section {
-                Button("Add Contact", role: nil) {
+                Button("Add Contact") {
                     if username.isEmpty || nickname.isEmpty {
                         attempted = true
                         return
                     }
-                    do {
+                    
+                    Task.detached {
                         let chat = try await messenger.createPrivateChat(with: Username(username))
                         let contact = try await messenger.createContact(byUsername: Username(username))
                         try await contact.befriend()
@@ -59,7 +60,7 @@ struct AddOnlineContact: View {
                             preferredPushType: .contactRequest
                         )
                         presentationMode.wrappedValue.dismiss()
-                    } catch {}
+                    }
                 }
             }
         }.navigationBarTitle("Add Contact")
@@ -78,12 +79,5 @@ struct RoundedBorderButtonStyle: ButtonStyle {
         .frame(minHeight: 40)
         .font(.system(size: 15, weight: .semibold))
         .background(RoundedRectangle(cornerRadius: 8).fill(fill))
-    }
-}
-
-struct AddOnlineContact_Previews: PreviewProvider {
-    static var previews: some View {
-        return AddOnlineContact()
-            .environment(\.messenger, .test)
     }
 }

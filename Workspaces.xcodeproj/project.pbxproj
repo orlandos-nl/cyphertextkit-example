@@ -19,6 +19,10 @@
 		2443C9F5262D76C10069680D /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2443C9F4262D76C10069680D /* MessageCell.swift */; };
 		2443C9F8262D7C500069680D /* ExpandingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2443C9F7262D7C500069680D /* ExpandingTextView.swift */; };
 		244576DF26737264006B8E56 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 244576DE26737264006B8E56 /* SwiftUIX */; };
+		247672DB26EC1C6A00274AC5 /* CypherMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 247672DA26EC1C6A00274AC5 /* CypherMessaging */; };
+		247672DD26EC1C6A00274AC5 /* MessagingHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 247672DC26EC1C6A00274AC5 /* MessagingHelpers */; };
+		247672DF26ECECB800274AC5 /* CypherMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 247672DE26ECECB800274AC5 /* CypherMessaging */; };
+		247672E126ECECB800274AC5 /* MessagingHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 247672E026ECECB800274AC5 /* MessagingHelpers */; };
 		247B11502678C67D00F75EE3 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247B114F2678C67D00F75EE3 /* AudioPlayer.swift */; };
 		247B11522678C69F00F75EE3 /* PlayAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247B11512678C69F00F75EE3 /* PlayAudioView.swift */; };
 		24838A0426778BC5002CC4FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A0326778BC5002CC4FC /* AppDelegate.swift */; };
@@ -33,12 +37,6 @@
 		2484818E2680AB49008A88AF /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2484818D2680AB49008A88AF /* AppView.swift */; };
 		248481902680AB4A008A88AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2484818F2680AB4A008A88AF /* Assets.xcassets */; };
 		248481932680AB4A008A88AF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 248481922680AB4A008A88AF /* Preview Assets.xcassets */; };
-		248481982680AB82008A88AF /* CypherMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 248481972680AB82008A88AF /* CypherMessaging */; };
-		2484819A2680AB82008A88AF /* MessagingHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 248481992680AB82008A88AF /* MessagingHelpers */; };
-		2484819C2680AB82008A88AF /* _NIOConcurrency in Frameworks */ = {isa = PBXBuildFile; productRef = 2484819B2680AB82008A88AF /* _NIOConcurrency */; };
-		2484819E2680AB82008A88AF /* NIO in Frameworks */ = {isa = PBXBuildFile; productRef = 2484819D2680AB82008A88AF /* NIO */; };
-		248481A02680AB82008A88AF /* NIOConcurrencyHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 2484819F2680AB82008A88AF /* NIOConcurrencyHelpers */; };
-		248481A22680AB82008A88AF /* NIOFoundationCompat in Frameworks */ = {isa = PBXBuildFile; productRef = 248481A12680AB82008A88AF /* NIOFoundationCompat */; };
 		248481A42680AB91008A88AF /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 248481A32680AB91008A88AF /* SwiftUIX */; };
 		248481A62680ABA9008A88AF /* FluentSQLiteDriver in Frameworks */ = {isa = PBXBuildFile; productRef = 248481A52680ABA9008A88AF /* FluentSQLiteDriver */; };
 		248481A82680AC3C008A88AF /* AutoSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A0C2678BDA4002CC4FC /* AutoSignal.swift */; };
@@ -70,6 +68,13 @@
 		248481D92680B825008A88AF /* QRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248481D72680B825008A88AF /* QRCode.swift */; };
 		248481DC2680B838008A88AF /* QRHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248481DA2680B838008A88AF /* QRHelpers.swift */; };
 		248481E12680BD27008A88AF /* CodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248481E02680BD27008A88AF /* CodeScannerView.swift */; };
+		24951F292699A4BA00AC55B1 /* WebRTC in Frameworks */ = {isa = PBXBuildFile; productRef = 24951F282699A4BA00AC55B1 /* WebRTC */; };
+		24951F2B2699A4C900AC55B1 /* WebRTC in Frameworks */ = {isa = PBXBuildFile; productRef = 24951F2A2699A4C900AC55B1 /* WebRTC */; };
+		24951F2D2699A56900AC55B1 /* WebRTC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24951F2C2699A56900AC55B1 /* WebRTC.swift */; };
+		24951F2E2699A56900AC55B1 /* WebRTC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24951F2C2699A56900AC55B1 /* WebRTC.swift */; };
+		24951F312699A75E00AC55B1 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 24951F302699A75E00AC55B1 /* Logging */; };
+		24951F332699A8AA00AC55B1 /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24951F322699A8AA00AC55B1 /* Call.swift */; };
+		24951F342699A8AA00AC55B1 /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24951F322699A8AA00AC55B1 /* Call.swift */; };
 		24A43ED92622614F000A0399 /* WorkspacesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43ED82622614F000A0399 /* WorkspacesApp.swift */; };
 		24A43EDB2622614F000A0399 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A43EDA2622614F000A0399 /* AppView.swift */; };
 		24A43EDD26226151000A0399 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24A43EDC26226151000A0399 /* Assets.xcassets */; };
@@ -90,8 +95,6 @@
 		24E38F94266FA2CD00A3B43B /* JWTKit in Frameworks */ = {isa = PBXBuildFile; productRef = 24E38F93266FA2CD00A3B43B /* JWTKit */; };
 		24E38F96266FA2CD00A3B43B /* WebSocketKit in Frameworks */ = {isa = PBXBuildFile; productRef = 24E38F95266FA2CD00A3B43B /* WebSocketKit */; };
 		24E38F98266FA2CD00A3B43B /* FluentSQLiteDriver in Frameworks */ = {isa = PBXBuildFile; productRef = 24E38F97266FA2CD00A3B43B /* FluentSQLiteDriver */; };
-		24E38F9B266FA84100A3B43B /* CypherMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 24E38F9A266FA84100A3B43B /* CypherMessaging */; };
-		24E38F9D266FA84100A3B43B /* MessagingHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 24E38F9C266FA84100A3B43B /* MessagingHelpers */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,6 +136,8 @@
 		248481D72680B825008A88AF /* QRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCode.swift; sourceTree = "<group>"; };
 		248481DA2680B838008A88AF /* QRHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRHelpers.swift; sourceTree = "<group>"; };
 		248481E02680BD27008A88AF /* CodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScannerView.swift; sourceTree = "<group>"; };
+		24951F2C2699A56900AC55B1 /* WebRTC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTC.swift; sourceTree = "<group>"; };
+		24951F322699A8AA00AC55B1 /* Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
 		24A43ED52622614F000A0399 /* iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24A43ED82622614F000A0399 /* WorkspacesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspacesApp.swift; sourceTree = "<group>"; };
 		24A43EDA2622614F000A0399 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
@@ -151,8 +156,6 @@
 		24A43F3A262345A2000A0399 /* AddOnlineContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOnlineContact.swift; sourceTree = "<group>"; };
 		24AE7A9B26775D52005C96EC /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
 		24AE7A9D26775E57005C96EC /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
-		24E38F73266F99F500A3B43B /* CypherTextKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CypherTextKit; path = ../../CypherTextKit; sourceTree = "<group>"; };
-		24E38F99266FA36A00A3B43B /* swift-nio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "swift-nio"; path = "../../swift-nio"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,14 +164,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				248481A42680AB91008A88AF /* SwiftUIX in Frameworks */,
-				2484819C2680AB82008A88AF /* _NIOConcurrency in Frameworks */,
-				2484819E2680AB82008A88AF /* NIO in Frameworks */,
-				248481982680AB82008A88AF /* CypherMessaging in Frameworks */,
-				2484819A2680AB82008A88AF /* MessagingHelpers in Frameworks */,
-				248481A22680AB82008A88AF /* NIOFoundationCompat in Frameworks */,
+				247672DB26EC1C6A00274AC5 /* CypherMessaging in Frameworks */,
+				24951F292699A4BA00AC55B1 /* WebRTC in Frameworks */,
 				248481B22680AC55008A88AF /* KeychainStored in Frameworks */,
 				248481A62680ABA9008A88AF /* FluentSQLiteDriver in Frameworks */,
-				248481A02680AB82008A88AF /* NIOConcurrencyHelpers in Frameworks */,
+				247672DD26EC1C6A00274AC5 /* MessagingHelpers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,14 +176,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24E38F9D266FA84100A3B43B /* MessagingHelpers in Frameworks */,
-				24E38F9B266FA84100A3B43B /* CypherMessaging in Frameworks */,
 				24E38F92266FA2CD00A3B43B /* Router in Frameworks */,
 				244576DF26737264006B8E56 /* SwiftUIX in Frameworks */,
+				24951F312699A75E00AC55B1 /* Logging in Frameworks */,
+				24951F2B2699A4C900AC55B1 /* WebRTC in Frameworks */,
 				24E38F90266FA2CD00A3B43B /* KeychainStored in Frameworks */,
 				24E38F96266FA2CD00A3B43B /* WebSocketKit in Frameworks */,
+				247672DF26ECECB800274AC5 /* CypherMessaging in Frameworks */,
 				24E38F98266FA2CD00A3B43B /* FluentSQLiteDriver in Frameworks */,
 				24E38F94266FA2CD00A3B43B /* JWTKit in Frameworks */,
+				247672E126ECECB800274AC5 /* MessagingHelpers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +246,8 @@
 				248481BE2680AE28008A88AF /* SharedHelpers.swift */,
 				24838A072678AABC002CC4FC /* Plugins */,
 				248481B62680ACA8008A88AF /* Constants.swift */,
+				24951F2C2699A56900AC55B1 /* WebRTC.swift */,
+				24951F322699A8AA00AC55B1 /* Call.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -321,8 +325,6 @@
 		24E38F72266F99F500A3B43B /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				24E38F73266F99F500A3B43B /* CypherTextKit */,
-				24E38F99266FA36A00A3B43B /* swift-nio */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -351,15 +353,12 @@
 			);
 			name = macOS;
 			packageProductDependencies = (
-				248481972680AB82008A88AF /* CypherMessaging */,
-				248481992680AB82008A88AF /* MessagingHelpers */,
-				2484819B2680AB82008A88AF /* _NIOConcurrency */,
-				2484819D2680AB82008A88AF /* NIO */,
-				2484819F2680AB82008A88AF /* NIOConcurrencyHelpers */,
-				248481A12680AB82008A88AF /* NIOFoundationCompat */,
 				248481A32680AB91008A88AF /* SwiftUIX */,
 				248481A52680ABA9008A88AF /* FluentSQLiteDriver */,
 				248481B12680AC55008A88AF /* KeychainStored */,
+				24951F282699A4BA00AC55B1 /* WebRTC */,
+				247672DA26EC1C6A00274AC5 /* CypherMessaging */,
+				247672DC26EC1C6A00274AC5 /* MessagingHelpers */,
 			);
 			productName = macOS;
 			productReference = 248481892680AB49008A88AF /* macOS.app */;
@@ -390,9 +389,11 @@
 				24E38F93266FA2CD00A3B43B /* JWTKit */,
 				24E38F95266FA2CD00A3B43B /* WebSocketKit */,
 				24E38F97266FA2CD00A3B43B /* FluentSQLiteDriver */,
-				24E38F9A266FA84100A3B43B /* CypherMessaging */,
-				24E38F9C266FA84100A3B43B /* MessagingHelpers */,
 				244576DE26737264006B8E56 /* SwiftUIX */,
+				24951F2A2699A4C900AC55B1 /* WebRTC */,
+				24951F302699A75E00AC55B1 /* Logging */,
+				247672DE26ECECB800274AC5 /* CypherMessaging */,
+				247672E026ECECB800274AC5 /* MessagingHelpers */,
 			);
 			productName = Workspaces;
 			productReference = 24A43ED52622614F000A0399 /* iOS.app */;
@@ -432,6 +433,9 @@
 				24E38F74266F9A3A00A3B43B /* XCRemoteSwiftPackageReference "fluent-sqlite" */,
 				24E38F83266FA29A00A3B43B /* XCRemoteSwiftPackageReference "swift-nio" */,
 				244576DD26737264006B8E56 /* XCRemoteSwiftPackageReference "swiftuix" */,
+				24951F272699A4BA00AC55B1 /* XCRemoteSwiftPackageReference "WebRTC" */,
+				24951F2F2699A75E00AC55B1 /* XCRemoteSwiftPackageReference "swift-log" */,
+				247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */,
 			);
 			productRefGroup = 24A43ED62622614F000A0399 /* Products */;
 			projectDirPath = "";
@@ -473,6 +477,7 @@
 				248481DC2680B838008A88AF /* QRHelpers.swift in Sources */,
 				2484818E2680AB49008A88AF /* AppView.swift in Sources */,
 				248481AB2680AC3C008A88AF /* ChatBar.swift in Sources */,
+				24951F2E2699A56900AC55B1 /* WebRTC.swift in Sources */,
 				248481C02680AE28008A88AF /* SharedHelpers.swift in Sources */,
 				248481AF2680AC3C008A88AF /* Text+Date.swift in Sources */,
 				248481D92680B825008A88AF /* QRCode.swift in Sources */,
@@ -490,6 +495,7 @@
 				248481AA2680AC3C008A88AF /* VoiceRecorder.swift in Sources */,
 				248481CE2680B263008A88AF /* PlayAudioView.swift in Sources */,
 				248481A82680AC3C008A88AF /* AutoSignal.swift in Sources */,
+				24951F342699A8AA00AC55B1 /* Call.swift in Sources */,
 				248481AE2680AC3C008A88AF /* MessageCell.swift in Sources */,
 				248481B82680ACA8008A88AF /* Constants.swift in Sources */,
 				248481BA2680ADBB008A88AF /* ChatTabView.swift in Sources */,
@@ -520,6 +526,7 @@
 				248480CB267E1F8D008A88AF /* ImageViewer.swift in Sources */,
 				24009D5D268753CE0071107E /* AttachmentButton.swift in Sources */,
 				2443C9D3262C719A0069680D /* SettingsView.swift in Sources */,
+				24951F332699A8AA00AC55B1 /* Call.swift in Sources */,
 				24A43EF226226AB8000A0399 /* SetupView.swift in Sources */,
 				2443C9F8262D7C500069680D /* ExpandingTextView.swift in Sources */,
 				24A43ED92622614F000A0399 /* WorkspacesApp.swift in Sources */,
@@ -533,6 +540,7 @@
 				24A43F2026230E82000A0399 /* ContactsView.swift in Sources */,
 				248481B72680ACA8008A88AF /* Constants.swift in Sources */,
 				24A43F3B262345A2000A0399 /* AddOnlineContact.swift in Sources */,
+				24951F2D2699A56900AC55B1 /* WebRTC.swift in Sources */,
 				24838A0426778BC5002CC4FC /* AppDelegate.swift in Sources */,
 				2443C9F1262D721A0069680D /* Text+Date.swift in Sources */,
 				24A43F1B26230345000A0399 /* CameraView.swift in Sources */,
@@ -860,6 +868,30 @@
 				kind = branch;
 			};
 		};
+		247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:Orlandos-nl/cyphertextkit.git";
+			requirement = {
+				branch = "feature/async-await";
+				kind = branch;
+			};
+		};
+		24951F272699A4BA00AC55B1 /* XCRemoteSwiftPackageReference "WebRTC" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alexpiezo/WebRTC.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 92.0.0;
+			};
+		};
+		24951F2F2699A75E00AC55B1 /* XCRemoteSwiftPackageReference "swift-log" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-log.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		24A43EF82622E755000A0399 /* XCRemoteSwiftPackageReference "async-http-client" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/swift-server/async-http-client.git";
@@ -916,29 +948,25 @@
 			package = 244576DD26737264006B8E56 /* XCRemoteSwiftPackageReference "swiftuix" */;
 			productName = SwiftUIX;
 		};
-		248481972680AB82008A88AF /* CypherMessaging */ = {
+		247672DA26EC1C6A00274AC5 /* CypherMessaging */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */;
 			productName = CypherMessaging;
 		};
-		248481992680AB82008A88AF /* MessagingHelpers */ = {
+		247672DC26EC1C6A00274AC5 /* MessagingHelpers */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */;
 			productName = MessagingHelpers;
 		};
-		2484819B2680AB82008A88AF /* _NIOConcurrency */ = {
+		247672DE26ECECB800274AC5 /* CypherMessaging */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = _NIOConcurrency;
+			package = 247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */;
+			productName = CypherMessaging;
 		};
-		2484819D2680AB82008A88AF /* NIO */ = {
+		247672E026ECECB800274AC5 /* MessagingHelpers */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = NIO;
-		};
-		2484819F2680AB82008A88AF /* NIOConcurrencyHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = NIOConcurrencyHelpers;
-		};
-		248481A12680AB82008A88AF /* NIOFoundationCompat */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = NIOFoundationCompat;
+			package = 247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */;
+			productName = MessagingHelpers;
 		};
 		248481A32680AB91008A88AF /* SwiftUIX */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -954,6 +982,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 24A43EFF2622E77C000A0399 /* XCRemoteSwiftPackageReference "KeychainStored" */;
 			productName = KeychainStored;
+		};
+		24951F282699A4BA00AC55B1 /* WebRTC */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24951F272699A4BA00AC55B1 /* XCRemoteSwiftPackageReference "WebRTC" */;
+			productName = WebRTC;
+		};
+		24951F2A2699A4C900AC55B1 /* WebRTC */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24951F272699A4BA00AC55B1 /* XCRemoteSwiftPackageReference "WebRTC" */;
+			productName = WebRTC;
+		};
+		24951F302699A75E00AC55B1 /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24951F2F2699A75E00AC55B1 /* XCRemoteSwiftPackageReference "swift-log" */;
+			productName = Logging;
 		};
 		24E38F77266FA27A00A3B43B /* AsyncHTTPClient */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1009,14 +1052,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 24E38F74266F9A3A00A3B43B /* XCRemoteSwiftPackageReference "fluent-sqlite" */;
 			productName = FluentSQLiteDriver;
-		};
-		24E38F9A266FA84100A3B43B /* CypherMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CypherMessaging;
-		};
-		24E38F9C266FA84100A3B43B /* MessagingHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MessagingHelpers;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

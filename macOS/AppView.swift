@@ -18,14 +18,23 @@ extension EnvironmentValues {
     }
     
     private struct CypherMessengerKey: EnvironmentKey {
-        typealias Value = CypherMessenger
+        typealias Value = CypherMessenger?
         
-        static let defaultValue = CypherMessenger.test
+        static let defaultValue: CypherMessenger? = nil
+    }
+    
+    var _messenger: CypherMessenger? {
+        get {
+            self[CypherMessengerKey.self]
+        }
+        set {
+            self[CypherMessengerKey.self] = newValue
+        }
     }
     
     var messenger: CypherMessenger {
         get {
-            self[CypherMessengerKey.self]
+            self[CypherMessengerKey.self]!
         }
         set {
             self[CypherMessengerKey.self] = newValue
@@ -49,57 +58,61 @@ struct AppView: View {
     @Environment(\.plugin) var plugin
     
     var body: some View {
-        if messenger.isSetupCompleted {
-            NavigationView {
-                ContactsView(viewModel: ContactsViewModel(emitter: plugin))
-                    .frame(minWidth: 250, idealWidth: 300)
-                
-                EmptyView()
-                    .frame(idealWidth: 450, idealHeight: 600)
-            }
-            .frame(minWidth: 800, idealWidth: 800, minHeight: 450, idealHeight: 600)
-            .onAppear {
-                NSApplication.shared.registerForRemoteNotifications()
-                UNUserNotificationCenter.current().getNotificationSettings { settings in
-                    if settings.badgeSetting == .enabled {
-                        return
-                    } else if settings.soundSetting == .enabled {
-                        return
-                    } else if settings.alertSetting == .enabled {
-                        return
-                    }
+        AsyncView(run: {
+            await messenger.checkSetupCompleted()
+        }) { isSetup in
+            if isSetup {
+                NavigationView {
+                    ContactsView(viewModel: ContactsViewModel(emitter: plugin))
+                        .frame(minWidth: 250, idealWidth: 300)
                     
-                    UNUserNotificationCenter.current().requestAuthorization(options: [
-                        .badge, .sound, .alert
-                    ]) { _, _ in }
+                    EmptyView()
+                        .frame(idealWidth: 450, idealHeight: 600)
                 }
-            }.onChange(of: scenePhase) { scenePhase in
-                switch scenePhase {
-                case .background:
-                    detach {
-                        try await messenger.transport.disconnect()
+                .frame(minWidth: 800, idealWidth: 800, minHeight: 450, idealHeight: 600)
+                .onAppear {
+                    NSApplication.shared.registerForRemoteNotifications()
+                    UNUserNotificationCenter.current().getNotificationSettings { settings in
+                        if settings.badgeSetting == .enabled {
+                            return
+                        } else if settings.soundSetting == .enabled {
+                            return
+                        } else if settings.alertSetting == .enabled {
+                            return
+                        }
+                        
+                        UNUserNotificationCenter.current().requestAuthorization(options: [
+                            .badge, .sound, .alert
+                        ]) { _, _ in }
                     }
-                case .active:
-                    detach {
-                        try await messenger.transport.reconnect()
+                }.onChange(of: scenePhase) { scenePhase in
+                    switch scenePhase {
+                    case .background:
+                        Task.detached {
+                            try await messenger.transport.disconnect()
+                        }
+                    case .active:
+                        Task.detached {
+                            try await messenger.transport.reconnect()
+                        }
+                    case .inactive:
+                        ()
+                    @unknown default:
+                        ()
                     }
-                case .inactive:
-                    ()
-                @unknown default:
-                    ()
                 }
+            } else {
+                AsyncView(run: { () async throws -> Image? in
+                    if let request = try await messenger.createDeviceRegisteryRequest() {
+                        let data = try BSONEncoder().encode(request).makeData()
+                        return try generateQRCode(from: data)
+                    } else {
+                        return nil
+                    }
+                }) { qrCode in
+                    qrCode.frame(width: 800, height: 800)
+                }.frame(width: 800, height: 800)
             }
-        } else {
-            AsyncView(run: { () async throws -> Image? in
-                if let request = try await messenger.createDeviceRegisteryRequest() {
-                    let data = try BSONEncoder().encode(request).makeData()
-                    return try generateQRCode(from: data)
-                } else {
-                    return nil
-                }
-            }) { qrCode in
-                qrCode.frame(width: 800, height: 800)
-            }.frame(width: 800, height: 800)
         }
     }
     
@@ -121,31 +134,5 @@ struct AppView: View {
         } else {
             throw BadQR()
         }
-    }
-}
-
-extension CypherMessenger {
-    static var test: CypherMessenger {
-        let eventLoop = MultiThreadedEventLoopGroup(numberOfThreads: 1).next()
-        
-        return try! eventLoop.executeAsync {
-            try await CypherMessenger.registerMessenger(
-                username: "test",
-                appPassword: "test",
-                usingTransport: { request in
-                    try await SpoofTransportClient.login(
-                        Credentials(
-                            username: request.username,
-                            deviceId: request.deviceId,
-                            method: .password("")
-                        ),
-                        eventLoop: eventLoop
-                    )
-                },
-                database: MemoryCypherMessengerStore(eventLoop: eventLoop),
-                eventHandler: SpoofCypherEventHandler(),
-                on: eventLoop
-            )
-        }.wait()
     }
 }

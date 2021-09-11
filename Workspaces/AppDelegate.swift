@@ -15,7 +15,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Self.token = deviceToken
         if let cypherMessenger = cypherMessenger, let transport = cypherMessenger.transport as? VaporTransport {
-            detach {
+            Task.detached {
                 try await transport.registerAPNSToken(deviceToken)
             }
         }

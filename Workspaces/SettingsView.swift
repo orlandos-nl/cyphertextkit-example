@@ -69,7 +69,7 @@ struct AddDeviceView: View {
                 Text("Do you want to register this device?")
                 
                 Button("Add Device") {
-                    detach {
+                    Task.detached {
                         try await messenger.addDevice(config)
                     }
                     presentationMode.wrappedValue.dismiss()

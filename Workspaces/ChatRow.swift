@@ -19,7 +19,7 @@ final class MostRecentMessage<Chat: AnyConversation>: ObservableObject {
     init(chat: Chat, plugin: SwiftUIEventEmitter) {
         self.chat = chat
         
-        asyncDetached {
+        Task.detached {
             let cursor = try await chat.cursor(sortedBy: .descending)
             let message = try await cursor.getNext()
             DispatchQueue.main.async {
@@ -143,21 +143,27 @@ struct ChatRow: View {
             }
         }.padding(.vertical, 4).contextMenu {
             if !isUnread {
-                Button(role: nil) {
+                Button {
                     self.isUnread = true
-                    _ = try? await self.privateChat.markUnread()
                     self.id = UUID()
+                    
+                    Task.detached {
+                        _ = try await self.privateChat.markUnread()
+                    }
                 } label: {
                     Label("Mark as Unread", systemImage: "bell")
                 }
             }
             
             if isUnread {
-                Button(role: nil) {
+                Button {
                     isUnread = false
                     self.id = UUID()
-                    _ = try? await self.privateChat.unmarkUnread()
-                    _ = try? await mostRecentMessage.message?.markAsRead()
+                    
+                    Task.detached {
+                        _ = try await self.privateChat.unmarkUnread()
+                        _ = try await mostRecentMessage.message?.markAsRead()
+                    }
                 } label: {
                     Label("Mark as Read", systemImage: "bell")
                 }
@@ -166,28 +172,36 @@ struct ChatRow: View {
                 message.sender == contact.username,
                 message.raw.deliveryState != .read
             {
-                Button(role: nil) {
+                Button {
                     self.isUnread = true
                     self.id = UUID()
-                    _ = try? await mostRecentMessage.message?.markAsRead()
+                    
+                    Task.detached {
+                        _ = try await mostRecentMessage.message?.markAsRead()
+                    }
                 } label: {
                     Label("Mark as Read", systemImage: "bell")
                 }
             }
             
             if privateChat.isPinned {
-                Button(role: nil) {
+                Button {
                     self.isPinned = false
                     self.id = UUID()
-                    _ = try? await privateChat.unpin()
+                    
+                    Task.detached {
+                        _ = try await privateChat.unpin()
+                    }
                 } label: {
                     Label("Unpin from Top", systemImage: "pin.slash")
                 }
             } else {
-                Button(role: nil) {
+                Button {
                     self.isPinned = true
                     self.id = UUID()
-                    _ = try? await privateChat.pin()
+                    Task.detached {
+                        _ = try await privateChat.pin()
+                    }
                 } label: {
                     Label("Pin to Top", systemImage: "pin")
                 }

@@ -132,7 +132,7 @@ struct SetupView: View {
                             removal: AnyTransition.identity
                         )
                     )
-                    .environment(\.messenger, messenger)
+                    .environment(\._messenger, messenger)
                     .environment(\.plugin, emitter)
             }
         }
@@ -159,53 +159,50 @@ struct ProcessingView: View {
                 ]),
                 startPoint: .top,
                 endPoint: .init(x: 0.5, y: max(1 - progress, 0.0001))
-            ).edgesIgnoringSafeArea(.all).onAppear {
-                asyncDetached {
-                    do {
-                        let eventLoop = MultiThreadedEventLoopGroup(numberOfThreads: 1).next()
-                        let emitter = makeEventEmitter()
-                        let store = try await SQLiteStore.create(on: eventLoop)
-                        let messenger = try await CypherMessenger.registerMessenger(
-                            username: Username(username),
-                            appPassword: "",
-                            usingTransport: { request async throws -> VaporTransport in
-                                DispatchQueue.main.async {
-                                    self.task = "Registering Device"
-                                    taskDescription = "We're almost ready!"
-                                    self.advance(to: 0.6)
-                                }
-                                
-                                if let appleToken = appleToken {
-                                    return try await VaporTransport.register(
-                                        appleToken: appleToken,
-                                        transportRequest: request,
-                                        host: Constants.host,
-                                        eventLoop: eventLoop
-                                    )
-                                } else {
-                                    return try await VaporTransport.registerPlain(
-                                        transportRequest: request,
-                                        host: Constants.host,
-                                        eventLoop: eventLoop
-                                    )
-                                }
-                            },
-                            p2pFactories: makeP2PFactories(),
-                            database: store,
-                            eventHandler: makeEventHandler(emitter: emitter),
-                            on: eventLoop
-                        )
-                        
-                        await emitter.boot(for: messenger)
-                        
-                        self.complete(messenger: messenger, emitter: emitter)
-                    } catch {
-                        self.fail(error: error)
-                        SQLiteStore.destroy()
-                    }
+            ).edgesIgnoringSafeArea(.all).task {
+                do {
+                    let eventLoop = MultiThreadedEventLoopGroup(numberOfThreads: 1).next()
+                    let emitter = makeEventEmitter()
+                    let store = try await SQLiteStore.create(on: eventLoop)
+                    let messenger = try await CypherMessenger.registerMessenger(
+                        username: Username(username),
+                        appPassword: "",
+                        usingTransport: { request async throws -> VaporTransport in
+                            DispatchQueue.main.async {
+                                self.task = "Registering Device"
+                                taskDescription = "We're almost ready!"
+                                self.advance(to: 0.6)
+                            }
+                            
+                            if let appleToken = appleToken {
+                                return try await VaporTransport.register(
+                                    appleToken: appleToken,
+                                    transportRequest: request,
+                                    host: Constants.host,
+                                    eventLoop: eventLoop
+                                )
+                            } else {
+                                return try await VaporTransport.registerPlain(
+                                    transportRequest: request,
+                                    host: Constants.host,
+                                    eventLoop: eventLoop
+                                )
+                            }
+                        },
+                        p2pFactories: makeP2PFactories(),
+                        database: store,
+                        eventHandler: makeEventHandler(emitter: emitter)
+                    )
+                    
+                    await emitter.boot(for: messenger)
+                    
+                    self.complete(messenger: messenger, emitter: emitter)
+                } catch {
+                    self.fail(error: error)
+                    SQLiteStore.destroy()
                 }
                 
-                func next() {
+                @Sendable func next() {
                     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                         advance(to: self.progress + 0.3)
                         next()

@@ -80,7 +80,7 @@ final class VoiceRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
             do {
                 let data = try Data(contentsOf: self.url)
                 
-                detach {
+                Task.detached {
                     try await self.onRecording(data)
                 }
                 
@@ -159,15 +159,18 @@ final class VoiceRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
         }
         
         if session.recordPermission == .undetermined {
-            let promise = messenger.eventLoop.makePromise(of: Bool.self)
-            session.requestRecordPermission { success in
-                if success {
-                    promise.succeed(run())
-                } else {
-                    promise.succeed(false)
+            return await withUnsafeContinuation { continuation in
+                session.requestRecordPermission { success in
+                    let result: Bool
+                    if success {
+                        result = run()
+                    } else {
+                        result = false
+                    }
+                    
+                    continuation.resume(with: .success(result))
                 }
             }
-            return try! await promise.futureResult.get()
         }
         
         return run()

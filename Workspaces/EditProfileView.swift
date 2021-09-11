@@ -69,7 +69,7 @@ struct EditProfileView: View {
                                 
                                 metadata.image = jpeg
                                 
-                                detach {
+                                Task.detached {
                                     try await messenger.changeProfilePicture(to: jpeg)
                                 }
                             }.edgesIgnoringSafeArea(.all)
@@ -87,7 +87,7 @@ struct EditProfileView: View {
                             "Status",
                             text: $status,
                             onCommit: {
-                                detach {
+                                Task.detached {
                                     try await messenger.changeProfileStatus(to: metadata.status ?? "Available")
                                 }
                                 metadata.status = status

@@ -62,6 +62,18 @@ struct ContactRow: View {
             if changedContact.id == self.contact.id, contact.status != status {
                 status = contact.status ?? "Available"
             }
+        }.contextMenu {
+            Button("Remove Contact", role: nil) {
+                Task.detached {
+                    try await contact.remove()
+                }
+            }
+            
+            Button("Check Encryption Keys", role: nil) {
+                Task.detached {
+                    try await contact.refreshDevices()
+                }
+            }
         }
     }
 }

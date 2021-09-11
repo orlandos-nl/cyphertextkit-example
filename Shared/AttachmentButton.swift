@@ -42,7 +42,7 @@ struct AttachmentButton<Chat: AnyConversation>: View {
                     return
                 }
             
-                detach {
+                Task.detached {
                     let data = try Data(contentsOf: url)
                     try await chat.sendRawMessage(
                         type: .media,
@@ -70,7 +70,7 @@ struct AttachmentButton<Chat: AnyConversation>: View {
                     return
                 }
                 
-                detach {
+                Task.detached {
                     _ = try await chat.sendRawMessage(
                         type: .media,
                         messageSubtype: "image/*",
@@ -107,7 +107,7 @@ struct AttachmentButton<Chat: AnyConversation>: View {
                         return
                     }
                     
-                    detach {
+                    Task.detached {
                         let data = try Data(contentsOf: url)
                         try await chat.sendRawMessage(
                             type: .media,

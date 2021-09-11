@@ -132,16 +132,25 @@ struct MessageCell: View {
                     let blob = message.metadata["blob"] as? Binary
                 {
                     box {
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(name)
-                                .fontWeight(.medium)
+                        HStack {
+                            Circle()
+                                .foregroundColor(Color(white: 0.88))
+                                .overlay {
+                                    Image(systemName: "doc")
+                                        .foregroundColor(.gray)
+                                }.frame(width: 36, height: 36)
                             
-                            HStack(spacing: 4) {
-                                Image(systemName: "arrow.down.circle")
-                                    .foregroundColor(.accentColor)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(name)
+                                    .fontWeight(.medium)
                                 
-                                Text(NSNumber(value: blob.count), formatter: ByteCountFormatter())
-                                    .foregroundColor(.gray)
+                                HStack(spacing: 4) {
+                                    Image(systemName: "arrow.down.circle")
+                                        .foregroundColor(.accentColor)
+                                    
+                                    Text(NSNumber(value: blob.count), formatter: ByteCountFormatter())
+                                        .foregroundColor(.gray)
+                                }
                             }
                         }.padding(8)
                     }.onTapGesture {

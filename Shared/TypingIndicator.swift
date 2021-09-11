@@ -28,7 +28,7 @@ final class TypingIndicator: ObservableObject {
     
     private func addClient<Chat: AnyConversation>(_ client: P2PClient, for chat: Chat) {
         clients.append(client)
-        detach {
+        Task.detached {
             if
                 let contact = try? await chat.messenger.createContact(byUsername: client.username),
                 let status = client.remoteStatus
@@ -46,7 +46,7 @@ final class TypingIndicator: ObservableObject {
             
             indicator.clients.removeAll { $0 === client }
             
-            detach {
+            Task.detached {
                 if let contact = try? await chat.messenger.createContact(byUsername: client.username) {
                     indicator.typingContacts.remove(contact)
                 }
@@ -59,7 +59,7 @@ final class TypingIndicator: ObservableObject {
                 let status = status
             else { return }
             
-            detach {
+            Task.detached {
                 if let contact = try? await chat.messenger.createContact(byUsername: client.username) {
                     indicator.changeStatus(for: contact, to: status)
                 }
@@ -78,7 +78,7 @@ final class TypingIndicator: ObservableObject {
     }
     
     init<Chat: AnyConversation>(chat: Chat, emitter: SwiftUIEventEmitter) {
-        detach {
+        Task.detached {
             let clients = try await chat.listOpenP2PConnections()
             for client in clients {
                 self.addClient(client, for: chat)

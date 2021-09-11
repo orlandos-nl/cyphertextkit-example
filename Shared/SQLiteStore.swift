@@ -249,7 +249,7 @@ final class SQLiteStore: CypherMessengerStore {
     var eventLoop: EventLoop { database.eventLoop }
 
     // TODO: Property in function scope
-    @KeychainStored(service: "ch.spokechat.dbsalt")  var keychainSalt: String?
+    @KeychainStored(service: "com.example.dbsalt")  var keychainSalt: String?
 
     private init(databases: Databases, database: Database) {
         self.databases = databases

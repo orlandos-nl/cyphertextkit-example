@@ -68,6 +68,15 @@ struct PrivateChatView: View {
                             messages.insert(message, at: 0)
                             proxy.scrollTo("bottom")
                         }
+                    }.onReceive(plugin.chatMessageRemoved) { message in
+                        if case .otherUser(chat.conversationPartner) = message.target {
+                            for i in 0..<messages.count {
+                                if message.id == messages[i].id {
+                                    messages.remove(at: i)
+                                    return
+                                }
+                            }
+                        }
                     }.onChange(of: messages.isEmpty) { isEmpty in
                         if !isEmpty {
                             proxy.scrollTo("bottom")
@@ -99,9 +108,11 @@ struct PrivateChatView: View {
                     VStack {
                         Text("Contact Request Pending")
                         
-                        Button("Resend Request", role: nil) {
-                            try? await contact.befriend()
-                            try? await contact.query()
+                        Button("Resend Request") {
+                            Task.detached {
+                                try await contact.befriend()
+                                try await contact.query()
+                            }
                         }
                     }.padding()
                 } else {
@@ -109,14 +120,18 @@ struct PrivateChatView: View {
                         Text("Contact Requested Contact")
                         
                         HStack {
-                            Button("Accept", role: nil) {
-                                try? await contact.befriend()
-                                id = UUID()
+                            Button("Accept") {
+                                Task.detached {
+                                    try await contact.befriend()
+                                    id = UUID()
+                                }
                             }
                             
                             Button("Ignore", role: nil) {
-                                try? await contact.unfriend()
-                                presentationMode.wrappedValue.dismiss()
+                                Task.detached {
+                                    try await contact.unfriend()
+                                    presentationMode.wrappedValue.dismiss()
+                                }
                             }
                         }
                     }.padding()
@@ -138,6 +153,6 @@ struct PrivateChatView: View {
             #if os(macOS)
             Color.white
             #endif
-        }
+        }.navigationTitle(contact.nickname)
     }
 }

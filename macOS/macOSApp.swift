@@ -22,7 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCent
     func application(_ application: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Self.token = deviceToken
         if let cypherMessenger = cypherMessenger, let transport = cypherMessenger.transport as? VaporTransport {
-            detach {
+            Task.detached {
                 try await transport.registerAPNSToken(deviceToken)
             }
         }
@@ -47,21 +47,19 @@ struct macOSApp: App {
                         usingTransport: { request in
                             try await VaporTransport.login(
                                 for: request,
-                                   host: Constants.host,
-                                   eventLoop: eventLoop
+                                   host: Constants.host
                             )
                         },
                         p2pFactories: makeP2PFactories(),
                         database: store,
-                        eventHandler: makeEventHandler(emitter: emitter),
-                        on: eventLoop
+                        eventHandler: makeEventHandler(emitter: emitter)
                     )
                     await emitter.boot(for: cypherMessenger)
                     appDelegate.cypherMessenger = cypherMessenger
                     return cypherMessenger
                 }) { messenger in
                     AppView()
-                        .environment(\.messenger, messenger)
+                        .environment(\._messenger, messenger)
                         .environment(\.plugin, emitter)
                 }
             } else {

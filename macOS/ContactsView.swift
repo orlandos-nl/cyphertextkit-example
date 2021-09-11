@@ -77,7 +77,7 @@ struct ContactsView: View {
                 }
             }
         }
-        .searchable(text: $searchText)
+        .searchable(text: $searchText, placement: .sidebar, prompt: Text("Find Contact"))
         #if os(macOS)
         .accentColor(.white)
         #endif

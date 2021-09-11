@@ -48,15 +48,15 @@ struct ChatTabView: View {
         }.edgesIgnoringSafeArea(.all).task {
             try? await recalculateBadges()
         }.onReceive(plugin.conversationChanged) { _ in
-            detach {
+            Task.detached {
                 try await recalculateBadges()
             }
         }.onReceive(plugin.conversationAdded) { _ in
-            detach {
+            Task.detached {
                 try await recalculateBadges()
             }
         }.onReceive(plugin.contactAdded) { _ in
-            detach {
+            Task.detached {
                 try await recalculateBadges()
             }
         }

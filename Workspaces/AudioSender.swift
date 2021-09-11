@@ -37,8 +37,8 @@ struct AudioSender<Chat: AnyConversation>: View {
                 
                 Spacer()
                 
-                Button("Send", role: nil) {
-                    do {
+                Button("Send") {
+                    Task.detached {
                         _ = try await chat.sendRawMessage(
                             type: .media,
                             messageSubtype: "audio",
@@ -50,8 +50,6 @@ struct AudioSender<Chat: AnyConversation>: View {
                         )
                         
                         self.presentationMode.dismiss()
-                    } catch {
-                        // TODO:
                     }
                 }
                 .frame(maxWidth: .infinity)

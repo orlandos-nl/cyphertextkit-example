@@ -20,14 +20,14 @@ struct AsyncView<T, V: View>: View {
     }
     
     var body: some View {
-        switch result {
-        case .some(.success(let value)):
-            build(value)
-        case .some(.failure(let error)):
-            Text("Error: \(error)" as String)
-        case .none:
-            ProgressView().onAppear {
-                asyncDetached {
+        ZStack {
+            switch result {
+            case .some(.success(let value)):
+                build(value)
+            case .some(.failure(let error)):
+                Text("Error: \(error)" as String)
+            case .none:
+                ProgressView().task {
                     do {
                         self.result = .success(try await run())
                     } catch {
@@ -35,6 +35,6 @@ struct AsyncView<T, V: View>: View {
                     }
                 }
             }
-        }
+        }.id(result.debugDescription)
     }
 }

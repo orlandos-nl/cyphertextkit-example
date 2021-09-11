@@ -29,12 +29,12 @@ struct AddLocalContact: View {
                     Spacer()
                 }
                 .navigationTitle("Chat Invite")
-                .navigationBarItems(trailing: Button("Accept", role: nil) {
-                    do {
+                .navigationBarItems(trailing: Button("Accept") {
+                    Task.detached {
                         _ = try await messenger.createPrivateChat(with: Username(invitation.peerID.displayName))
                         self.invitation = nil
                         presentationMode.wrappedValue.dismiss()
-                    } catch {}
+                    }
                 })
             }
         }

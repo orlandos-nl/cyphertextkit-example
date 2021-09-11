@@ -85,7 +85,7 @@ struct ChatBar<Chat: AnyConversation>: View {
                         heightRange: 16..<80,
                         isDisabled: $isRecording
                     ).onChange(of: message) { message in
-                        detach {
+                        Task.detached {
                             await indicator.emitIsTyping(!message.isEmpty)
                         }
                     }
@@ -94,17 +94,17 @@ struct ChatBar<Chat: AnyConversation>: View {
                     .frame(minHeight: 36)
                     .background(RoundedRectangle(cornerRadius: 20).fill(Color(white: 0.95)))
                     #else
-                    TextField(isRecording ? "Recording.." : "Message", text: $message)
+                    TextField(isRecording ? "Recording.." : "Message", text: $message, onCommit: send)
                         .textFieldStyle(PlainTextFieldStyle())
                         .onChange(of: message) { message in
-                        detach {
-                            await indicator.emitIsTyping(!message.isEmpty)
+                            Task.detached {
+                                await indicator.emitIsTyping(!message.isEmpty)
+                            }
                         }
-                    }
-                    .padding(.vertical, 4)
-                    .padding(.horizontal, 12)
-                    .frame(minHeight: 36)
-                    .background(RoundedRectangle(cornerRadius: 20).fill(Color(white: 0.95)))
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 12)
+                        .frame(minHeight: 36)
+                        .background(RoundedRectangle(cornerRadius: 20).fill(Color(white: 0.95)))
                     #endif
                 }
                 
@@ -129,7 +129,6 @@ struct ChatBar<Chat: AnyConversation>: View {
                 }
                 .frame(width: 36, height: 36)
                 .buttonStyle(PlainButtonStyle())
-                .onKeyboardShortcut(.return, modifiers: .command, perform: send)
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 12)
@@ -146,7 +145,7 @@ struct ChatBar<Chat: AnyConversation>: View {
     private func send() {
         if let audio = recordedAudio {
             self.recordedAudio = nil
-            detach {
+            Task.detached {
                 try await chat.sendRawMessage(
                     type: .media,
                     messageSubtype: "audio",
@@ -162,7 +161,7 @@ struct ChatBar<Chat: AnyConversation>: View {
                 recorder.stop()
                 isRecording = false
             } else {
-                detach {
+                Task.detached {
                     if await recorder.start() == true {
                         DispatchQueue.main.async {
                             isRecording = true
@@ -180,7 +179,7 @@ struct ChatBar<Chat: AnyConversation>: View {
         
         let message = self.message
         self.message = ""
-        detach {
+        Task.detached {
             try await chat.sendRawMessage(type: .text, text: message, preferredPushType: .message)
         }
     }
