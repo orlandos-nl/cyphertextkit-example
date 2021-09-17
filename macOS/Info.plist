@@ -4,9 +4,5 @@
 <dict>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.social-networking</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>We use your microphone for calling with contacts</string>
 </dict>
 </plist>

@@ -269,7 +269,7 @@ final class SQLiteStore: CypherMessengerStore {
         Self.destroy()
     }
 
-    static func create(
+    public static func create(
         on eventLoop: EventLoop
     ) async throws -> SQLiteStore {
         try await self.create(withConfiguration: .file(makeSQLiteURL()), on: eventLoop).get()

@@ -20,11 +20,20 @@
         }
       },
       {
+        "package": "console-kit",
+        "repositoryURL": "https://github.com/vapor/console-kit.git",
+        "state": {
+          "branch": null,
+          "revision": "75ea3b627d88221440b878e5dfccc73fd06842ed",
+          "version": "4.2.7"
+        }
+      },
+      {
         "package": "CypherTextKit",
         "repositoryURL": "git@github.com:Orlandos-nl/cyphertextkit.git",
         "state": {
           "branch": "feature/async-await",
-          "revision": "c2900e6ce08e683a22a7d5be7d13e3d0dbfa6b69",
+          "revision": "9f2e626136acf06cbd54dbee34cd1bf134f6156e",
           "version": null
         }
       },
@@ -123,8 +132,8 @@
         "repositoryURL": "https://github.com/apple/swift-nio.git",
         "state": {
           "branch": null,
-          "revision": "f2705f9655ede35399b12040e892cf653126de98",
-          "version": "2.32.2"
+          "revision": "fb48bdd8279799f655da5f8b4e0a21430eca6012",
+          "version": "2.32.3"
         }
       },
       {
@@ -132,8 +141,8 @@
         "repositoryURL": "https://github.com/apple/swift-nio-ssl.git",
         "state": {
           "branch": null,
-          "revision": "2e74773972bd6254c41ceeda827f229bccbf1c0f",
-          "version": "2.15.0"
+          "revision": "77a3bf17884d2c87ba400f4d93b9a6f27b078651",
+          "version": "2.15.1"
         }
       },
       {
@@ -142,15 +151,6 @@
         "state": {
           "branch": "jo-detail-router",
           "revision": "523af52c684ce4daf4f8f4cab8172f6453155c24",
-          "version": null
-        }
-      },
-      {
-        "package": "SwiftUIX",
-        "repositoryURL": "https://github.com/swiftuix/swiftuix.git",
-        "state": {
-          "branch": "master",
-          "revision": "c864d5df38abc2f3a2093cc5e35e134edf91dc3a",
           "version": null
         }
       },
