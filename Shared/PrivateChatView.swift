@@ -7,7 +7,6 @@
 
 import Combine
 import SwiftUI
-import SwiftUIX
 import CypherMessaging
 import MessagingHelpers
 
@@ -55,14 +54,14 @@ struct PrivateChatView: View {
                         }
                         
                         // Replaces padding bottom
-                        Color.almostClear.frame(height: 12).id("bottom")
-                        #if os(iOS)
-                            .onReceive(Keyboard.main.$isShown) { isShown in
-                                withAnimation {
-                                    proxy.scrollTo("bottom")
-                                }
-                            }
-                        #endif
+                        Color(white: 0, opacity: 0.001).frame(height: 12).id("bottom")
+//                        #if os(iOS)
+//                            .onReceive(Keyboard.main.$isShown) { isShown in
+//                                withAnimation {
+//                                    proxy.scrollTo("bottom")
+//                                }
+//                            }
+//                        #endif
                     }.padding(.top, 12).onReceive(plugin.savedChatMessages) { message in
                         if case .otherUser(chat.conversationPartner) = message.target {
                             messages.insert(message, at: 0)
@@ -90,7 +89,9 @@ struct PrivateChatView: View {
             }
             #if os(iOS)
             .navigationBarTitle(contact.nickname, displayMode: .inline)
-            .onTapGesture(perform: Keyboard.main.dismiss)
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIViewController.resignFirstResponder), to: nil, from: nil, for: nil)
+            }
             #endif
             
             Divider()

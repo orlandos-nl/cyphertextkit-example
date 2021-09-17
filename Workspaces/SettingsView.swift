@@ -17,7 +17,7 @@ struct SettingsView: View {
     
     var body: some View {
         Form {
-            Section(header: "My Profile") {
+            Section(header: Text("My Profile")) {
                 NavigationLink(
                     destination: EditProfileView(
                         metadata: $metadata,
@@ -44,11 +44,11 @@ struct SettingsView: View {
                             .foregroundColor(.gray)
                     }
                     .padding(.vertical, 8)
-                    .background(Color.almostClear)
+                    .background(Color(white: 0, opacity: 0.001))
                 }
             }
             
-            Section(header: "Devices") {
+            Section(header: Text("Devices")) {
                 NavigationLink(
                     "Add Device",
                     destination: AddDeviceView()

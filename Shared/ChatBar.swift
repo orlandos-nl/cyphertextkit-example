@@ -161,11 +161,9 @@ struct ChatBar<Chat: AnyConversation>: View {
                 recorder.stop()
                 isRecording = false
             } else {
-                Task.detached {
+                Task.detached { @MainActor in
                     if await recorder.start() == true {
-                        DispatchQueue.main.async {
-                            isRecording = true
-                        }
+                        isRecording = true
                     }
                 }
             }

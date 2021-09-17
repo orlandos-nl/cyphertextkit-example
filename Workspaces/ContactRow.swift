@@ -57,7 +57,7 @@ struct ContactRow: View {
                 Spacer()
             }
             .padding(.vertical, 8)
-            .background(Color.almostClear)
+            .background(Color(white: 0, opacity: 0.001))
         }.onReceive(plugin.contactChanged) { changedContact in
             if changedContact.id == self.contact.id, contact.status != status {
                 status = contact.status ?? "Available"

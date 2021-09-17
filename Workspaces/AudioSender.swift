@@ -29,7 +29,7 @@ struct AudioSender<Chat: AnyConversation>: View {
                             .foregroundColor(.red)
                             .onAppear {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
-                                    self.presentationMode.dismiss()
+                                    self.presentationMode.wrappedValue.dismiss()
                                 }
                             }
                     }
@@ -49,14 +49,14 @@ struct AudioSender<Chat: AnyConversation>: View {
                             preferredPushType: .message
                         )
                         
-                        self.presentationMode.dismiss()
+                        self.presentationMode.wrappedValue.dismiss()
                     }
                 }
                 .frame(maxWidth: .infinity)
                 .buttonStyle(RoundedBorderButtonStyle(fill: Color(white: 0.97)))
                 
                 Button("Cancel") {
-                    self.presentationMode.dismiss()
+                    self.presentationMode.wrappedValue.dismiss()
                 }
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.red)

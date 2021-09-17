@@ -9,7 +9,6 @@ import SwiftUI
 import Combine
 import CypherMessaging
 import MessagingHelpers
-import SwiftUIX
 
 final class MostRecentMessage<Chat: AnyConversation>: ObservableObject {
     @Published var message: AnyChatMessage?
@@ -139,7 +138,7 @@ struct ChatRow: View {
                                 .foregroundColor(.gray)
                         }
                     }
-                }.frame(height: 44).background(Color.almostClear)
+                }.frame(height: 44).background(Color(white: 0, opacity: 0.001))
             }
         }.padding(.vertical, 4).contextMenu {
             if !isUnread {

@@ -51,7 +51,7 @@ struct ImageViewer: View {
                 .foregroundColor(.white)
                 .frame(width: 16, height: 16)
                 .padding(12)
-                .background(Color.almostClear)
+                .background(Color(white: 0, opacity: 0.001))
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }

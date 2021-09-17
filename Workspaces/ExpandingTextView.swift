@@ -21,7 +21,9 @@ public struct ExpandingTextView<Label: View>: View {
     
     public var body: some View {
         return ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
-            label.visible(text.isEmpty)
+            if text.isEmpty {
+                label
+            }
             
             _ExpandingTextView(
                 text: $text,
@@ -62,7 +64,11 @@ extension ExpandingTextView where Label == EmptyView {
         onCommit: @escaping () -> Void = { }
     ) {
         self.init(
-            text: text.withDefaultValue(String()),
+            text: Binding<String>(get: {
+                text.wrappedValue ?? ""
+            }, set: {
+                text.wrappedValue = $0
+            }),
             heightRange: heightRange,
             isDisabled: isDisabled,
             onEditingChanged: onEditingChanged,
@@ -80,7 +86,7 @@ extension ExpandingTextView where Label == Text {
         onEditingChanged: @escaping (Bool) -> Void = { _ in },
         onCommit: @escaping () -> Void = { }
     ) {
-        self.label = Text(title).foregroundColor(.placeholderText)
+        self.label = Text(title).foregroundColor(Color(UIColor.placeholderText))
         self._text = text
         self.heightRange = heightRange
         self.onEditingChanged = onEditingChanged
@@ -99,7 +105,11 @@ extension ExpandingTextView where Label == Text {
     ) {
         self.init(
             title,
-            text: text.withDefaultValue(String()),
+            text: Binding<String>(get: {
+                text.wrappedValue ?? ""
+            }, set: {
+                text.wrappedValue = $0
+            }),
             heightRange: heightRange,
             isDisabled: isDisabled,
             onEditingChanged: onEditingChanged,
@@ -206,11 +216,11 @@ fileprivate struct _ExpandingTextView: UIViewRepresentable {
         
         // `UITextView`'s default font is smaller than SwiftUI's default font.
         // `.preferredFont(forTextStyle: .body)` is used when `context.environment.font` is nil.
-        uiView.font = context.environment.font?.toUIFont() ?? .preferredFont(forTextStyle: .body)
+        uiView.font = .preferredFont(forTextStyle: .body)
         #if !os(tvOS)
         uiView.isEditable = context.environment.isEnabled
         #endif
-        uiView.isScrollEnabled = context.environment.isScrollEnabled
+        uiView.isScrollEnabled = false
         uiView.isSelectable = !isDisabled
         uiView.isEditable = !isDisabled
         uiView.text = text

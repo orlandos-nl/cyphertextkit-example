@@ -28,6 +28,24 @@ struct ContactImage: View {
     }
 }
 
+extension Image {
+    init?(data: Data) {
+        #if os(iOS)
+        guard let image = UIImage(data: data) else {
+            return nil
+        }
+        
+        self.init(uiImage: image)
+        #else
+        guard let image = NSImage(data: data) else {
+            return nil
+        }
+        
+        self.init(nsImage: image)
+        #endif
+    }
+}
+
 struct ProfileImage: View {
     let data: Data?
     

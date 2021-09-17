@@ -63,7 +63,7 @@ struct ContactsView: View {
     
     var body: some View {
         Form {
-            Section(header: "\(viewModel.contacts.count) contacts") {
+            Section(header: Text("\(viewModel.contacts.count) contacts")) {
                 if viewModel.contacts.isEmpty {
                     Text("No Contacts Yet")
                         .foregroundColor(.gray)
@@ -79,8 +79,8 @@ struct ContactsView: View {
                 }
             }
             
-            Section(header: "Actions") {
-                NavigationLink("Add Online Contact", destination: AddOnlineContact())
+            Section(header: Text("Actions")) {
+                NavigationLink("Add Contact", destination: AddOnlineContact())
             }
         }.searchable(text: $searchText).navigationBarTitle("Contacts")
     }

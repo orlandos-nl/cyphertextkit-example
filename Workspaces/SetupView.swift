@@ -74,7 +74,7 @@ struct ProcessingView: View {
                 startPoint: .top,
                 endPoint: .init(x: 0.5, y: max(1 - progress, 0.0001))
             ).edgesIgnoringSafeArea(.all).onAppear {
-                asyncDetached {
+                Task.detached {
                     do {
                         let eventLoop = MultiThreadedEventLoopGroup(numberOfThreads: 1).next()
                         let emitter = makeEventEmitter()

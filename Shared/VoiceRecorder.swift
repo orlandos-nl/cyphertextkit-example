@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftUIX
 import AVFoundation
 import NIO
 import CypherMessaging
@@ -12,13 +11,13 @@ final class VoiceRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
     let messenger: CypherMessenger
     let id = UUID()
     let recorder: AVAudioRecorder
+    let url: URL
+    @Binding var isRecording: Bool
     @Published private(set) var started = false
     @Binding var soundSample: Float
     private(set) var lowestSoundSample: Float?
     private(set) var highestSoundSample: Float?
     private(set) var allSamples = [Float]()
-    let url: URL
-    @Binding var isRecording: Bool
     private var onRecording: (Data) async throws -> ()
     private var cancelled = false
     private(set) var startDate: Date?
