@@ -22,7 +22,7 @@ struct PrivateChatView: View {
     @State var canLoadMore = false
     @State var messages = [AnyChatMessage]()
     
-    var body: some View {
+    @MainActor var body: some View {
         VStack(spacing: 0) {
             ScrollView {
                 ScrollViewReader { proxy in
@@ -105,7 +105,7 @@ struct PrivateChatView: View {
                         recorder: VoiceRecorder(messenger: messenger),
                         indicator: .init(chat: chat, emitter: plugin)
                     )
-                } else if contact.ourState == .friend {
+                } else if contact.ourFriendshipState == .friend {
                     VStack {
                         Text("Contact Request Pending")
                         

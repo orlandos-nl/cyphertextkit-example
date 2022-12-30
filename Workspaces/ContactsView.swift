@@ -37,11 +37,11 @@ struct ContactsView: View {
             matchingUsers = viewModel.contacts.filter { $0.nickname.lowercased().contains(searchText.lowercased()) }
         }
     
-        return matchingUsers.sorted { lhs, rhs in
+        return matchingUsers.sorted { (lhs: Contact, rhs: Contact) in
             if lhs.isMutualFriendship != rhs.isMutualFriendship {
                 // We care about undecided friend requests first
                 // Then friendship before non-friendship
-                switch (lhs.ourState, rhs.ourState) {
+                switch (lhs.ourFriendshipState, rhs.ourFriendshipState) {
                 case (.undecided, _):
                     return true
                 case (_, .undecided):
@@ -70,7 +70,7 @@ struct ContactsView: View {
                 }
                 
                 ForEach(contacts) { contact in
-                    switch contact.ourState {
+                    switch contact.ourFriendshipState {
                     case .undecided, .friend:
                         ContactRow(contact: contact)
                     case .notFriend, .blocked:

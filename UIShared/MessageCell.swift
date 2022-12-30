@@ -65,11 +65,11 @@ struct MessageCell: View {
     @State var message: AnyChatMessage
     @State var action = false
     
-    var isWrittenByMe: Bool {
+    @MainActor var isWrittenByMe: Bool {
         message.raw.senderUser == messenger.username
     }
     
-    var readerState: Text {
+    @MainActor var readerState: Text {
         switch message.raw.deliveryState {
         case .revoked:
             return Text(Image(systemName: "trash.circle"))
@@ -84,7 +84,7 @@ struct MessageCell: View {
         }
     }
     
-    var metadata: Text {
+    @MainActor var metadata: Text {
         if isWrittenByMe {
             return Text(date: message.raw.sendDate, requiresTime: true) + Text(" ") + readerState
         } else {
@@ -182,7 +182,7 @@ struct MessageCell: View {
         }
     }
     
-    @ViewBuilder var imageView: some View {
+    @ViewBuilder @MainActor var imageView: some View {
         if
             let binary = message.metadata["blob"] as? Binary,
             let image = Image(data: binary.data)
@@ -210,7 +210,7 @@ struct MessageCell: View {
         }
     }
     
-    func box<V: View>(@ViewBuilder build: () -> V) -> MessageBox<V> {
+    @MainActor func box<V: View>(@ViewBuilder build: () -> V) -> MessageBox<V> {
         MessageBox(
             isWrittenByMe: isWrittenByMe,
             metadata: metadata,

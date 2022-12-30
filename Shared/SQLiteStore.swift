@@ -122,7 +122,7 @@ fileprivate final class _JobModel: FluentKit.Model {
     }
 }
 
-fileprivate final class _ContactModel: FluentKit.Model {
+@CryptoActor fileprivate final class _ContactModel: FluentKit.Model {
     static let schema = "f"
 
     @ID(key: .id) var id: UUID?
@@ -310,9 +310,14 @@ final class SQLiteStore: CypherMessengerStore {
     }
     
     func fetchContacts() async throws -> [ContactModel] {
-        try await _ContactModel.query(on: database).all().flatMapEachThrowing {
-            try $0.makeContact()
-        }.get()
+        let contacts = try await _ContactModel.query(on: database).all().get()
+        var models = [ContactModel]()
+        
+        for contact in contacts {
+            try await models.append(contact.makeContact())
+        }
+        
+        return models
     }
     
     func createContact(_ contact: ContactModel) async throws {

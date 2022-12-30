@@ -96,6 +96,7 @@ struct ChatBar<Chat: AnyConversation>: View {
                     #else
                     TextField(isRecording ? "Recording.." : "Message", text: $message, onCommit: send)
                         .textFieldStyle(PlainTextFieldStyle())
+                        .disableAutocorrection(true)
                         .onChange(of: message) { message in
                             Task.detached {
                                 await indicator.emitIsTyping(!message.isEmpty)

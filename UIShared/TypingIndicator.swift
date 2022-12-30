@@ -77,7 +77,7 @@ final class TypingIndicator: ObservableObject {
     }
     
     init<Chat: AnyConversation>(chat: Chat, emitter: SwiftUIEventEmitter) {
-        Task.detached {
+        Task.detached { @MainActor in
             let clients = try await chat.listOpenP2PConnections()
             for client in clients {
                 self.addClient(client, for: chat)

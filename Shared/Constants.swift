@@ -3,7 +3,7 @@ import NIO
 import CypherMessaging
 import MessagingHelpers
 
-func sortConversations(lhs: TargetConversation.Resolved, rhs: TargetConversation.Resolved) -> Bool {
+@MainActor func sortConversations(lhs: TargetConversation.Resolved, rhs: TargetConversation.Resolved) -> Bool {
     switch (lhs.isPinned, rhs.isPinned) {
     case (true, true), (false, false):
         ()
@@ -50,5 +50,5 @@ func makeEventHandler(emitter: SwiftUIEventEmitter) -> PluginEventHandler {
 }
 
 enum Constants {
-    static let host = "chat-api.orlandos.nl"
+    static let host = "638475947f6b1b035f140891.alpha-1.cloud.responsive.software"
 }

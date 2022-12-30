@@ -15,8 +15,6 @@
 		241B96B226F499BD004AFD4F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248481B62680ACA8008A88AF /* Constants.swift */; };
 		241B96B426F499E2004AFD4F /* KeychainStored in Frameworks */ = {isa = PBXBuildFile; productRef = 241B96B326F499E2004AFD4F /* KeychainStored */; };
 		241B96B626F499E2004AFD4F /* FluentSQLiteDriver in Frameworks */ = {isa = PBXBuildFile; productRef = 241B96B526F499E2004AFD4F /* FluentSQLiteDriver */; };
-		241B96B826F499E2004AFD4F /* CypherMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 241B96B726F499E2004AFD4F /* CypherMessaging */; };
-		241B96BA26F499E2004AFD4F /* MessagingHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 241B96B926F499E2004AFD4F /* MessagingHelpers */; };
 		241B96BB26F49A0F004AFD4F /* PinnedChatsPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A082678AAC8002CC4FC /* PinnedChatsPlugin.swift */; };
 		241B96BE26F49A78004AFD4F /* ConsoleKit in Frameworks */ = {isa = PBXBuildFile; productRef = 241B96BD26F49A78004AFD4F /* ConsoleKit */; };
 		2443C9D0262C71960069680D /* ChatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2443C9CF262C71960069680D /* ChatsView.swift */; };
@@ -28,10 +26,8 @@
 		2443C9F1262D721A0069680D /* Text+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2443C9F0262D721A0069680D /* Text+Date.swift */; };
 		2443C9F5262D76C10069680D /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2443C9F4262D76C10069680D /* MessageCell.swift */; };
 		2443C9F8262D7C500069680D /* ExpandingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2443C9F7262D7C500069680D /* ExpandingTextView.swift */; };
-		247672DB26EC1C6A00274AC5 /* CypherMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 247672DA26EC1C6A00274AC5 /* CypherMessaging */; };
-		247672DD26EC1C6A00274AC5 /* MessagingHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 247672DC26EC1C6A00274AC5 /* MessagingHelpers */; };
-		247672DF26ECECB800274AC5 /* CypherMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 247672DE26ECECB800274AC5 /* CypherMessaging */; };
-		247672E126ECECB800274AC5 /* MessagingHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 247672E026ECECB800274AC5 /* MessagingHelpers */; };
+		2465274F27DB75550075868E /* CypherMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 2465274E27DB75550075868E /* CypherMessaging */; };
+		2465275127DB75B30075868E /* MessagingHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = 2465275027DB75B30075868E /* MessagingHelpers */; };
 		247B11502678C67D00F75EE3 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247B114F2678C67D00F75EE3 /* AudioPlayer.swift */; };
 		247B11522678C69F00F75EE3 /* PlayAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247B11512678C69F00F75EE3 /* PlayAudioView.swift */; };
 		24838A0426778BC5002CC4FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24838A0326778BC5002CC4FC /* AppDelegate.swift */; };
@@ -131,6 +127,7 @@
 		2443C9F0262D721A0069680D /* Text+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Date.swift"; sourceTree = "<group>"; };
 		2443C9F4262D76C10069680D /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		2443C9F7262D7C500069680D /* ExpandingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingTextView.swift; sourceTree = "<group>"; };
+		246B0E9427D8A9E400D9C650 /* cyphertextkit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = cyphertextkit; path = ../cyphertextkit; sourceTree = "<group>"; };
 		247B114F2678C67D00F75EE3 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		247B11512678C69F00F75EE3 /* PlayAudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAudioView.swift; sourceTree = "<group>"; };
 		24838A0326778BC5002CC4FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -185,8 +182,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				241B96B826F499E2004AFD4F /* CypherMessaging in Frameworks */,
-				241B96BA26F499E2004AFD4F /* MessagingHelpers in Frameworks */,
 				241B96B626F499E2004AFD4F /* FluentSQLiteDriver in Frameworks */,
 				241B96BE26F49A78004AFD4F /* ConsoleKit in Frameworks */,
 				241B96B426F499E2004AFD4F /* KeychainStored in Frameworks */,
@@ -197,11 +192,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				247672DB26EC1C6A00274AC5 /* CypherMessaging in Frameworks */,
 				24951F292699A4BA00AC55B1 /* WebRTC in Frameworks */,
 				248481B22680AC55008A88AF /* KeychainStored in Frameworks */,
 				248481A62680ABA9008A88AF /* FluentSQLiteDriver in Frameworks */,
-				247672DD26EC1C6A00274AC5 /* MessagingHelpers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,15 +202,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2465274F27DB75550075868E /* CypherMessaging in Frameworks */,
 				24E38F92266FA2CD00A3B43B /* Router in Frameworks */,
 				24951F312699A75E00AC55B1 /* Logging in Frameworks */,
 				24951F2B2699A4C900AC55B1 /* WebRTC in Frameworks */,
 				24E38F90266FA2CD00A3B43B /* KeychainStored in Frameworks */,
+				2465275127DB75B30075868E /* MessagingHelpers in Frameworks */,
 				24E38F96266FA2CD00A3B43B /* WebSocketKit in Frameworks */,
-				247672DF26ECECB800274AC5 /* CypherMessaging in Frameworks */,
 				24E38F98266FA2CD00A3B43B /* FluentSQLiteDriver in Frameworks */,
 				24E38F94266FA2CD00A3B43B /* JWTKit in Frameworks */,
-				247672E126ECECB800274AC5 /* MessagingHelpers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +305,7 @@
 		24A43ECC2622614F000A0399 = {
 			isa = PBXGroup;
 			children = (
+				246B0E9427D8A9E400D9C650 /* cyphertextkit */,
 				248481A72680ABB0008A88AF /* UIShared */,
 				241B96AF26F4998D004AFD4F /* Shared */,
 				24E38F72266F99F500A3B43B /* Packages */,
@@ -405,8 +399,6 @@
 			packageProductDependencies = (
 				241B96B326F499E2004AFD4F /* KeychainStored */,
 				241B96B526F499E2004AFD4F /* FluentSQLiteDriver */,
-				241B96B726F499E2004AFD4F /* CypherMessaging */,
-				241B96B926F499E2004AFD4F /* MessagingHelpers */,
 				241B96BD26F49A78004AFD4F /* ConsoleKit */,
 			);
 			productName = CLI;
@@ -430,8 +422,6 @@
 				248481A52680ABA9008A88AF /* FluentSQLiteDriver */,
 				248481B12680AC55008A88AF /* KeychainStored */,
 				24951F282699A4BA00AC55B1 /* WebRTC */,
-				247672DA26EC1C6A00274AC5 /* CypherMessaging */,
-				247672DC26EC1C6A00274AC5 /* MessagingHelpers */,
 			);
 			productName = macOS;
 			productReference = 248481892680AB49008A88AF /* macOS.app */;
@@ -464,8 +454,8 @@
 				24E38F97266FA2CD00A3B43B /* FluentSQLiteDriver */,
 				24951F2A2699A4C900AC55B1 /* WebRTC */,
 				24951F302699A75E00AC55B1 /* Logging */,
-				247672DE26ECECB800274AC5 /* CypherMessaging */,
-				247672E026ECECB800274AC5 /* MessagingHelpers */,
+				2465274E27DB75550075868E /* CypherMessaging */,
+				2465275027DB75B30075868E /* MessagingHelpers */,
 			);
 			productName = Workspaces;
 			productReference = 24A43ED52622614F000A0399 /* iOS.app */;
@@ -509,7 +499,6 @@
 				24E38F83266FA29A00A3B43B /* XCRemoteSwiftPackageReference "swift-nio" */,
 				24951F272699A4BA00AC55B1 /* XCRemoteSwiftPackageReference "WebRTC" */,
 				24951F2F2699A75E00AC55B1 /* XCRemoteSwiftPackageReference "swift-log" */,
-				247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */,
 				241B96BC26F49A78004AFD4F /* XCRemoteSwiftPackageReference "console-kit" */,
 			);
 			productRefGroup = 24A43ED62622614F000A0399 /* Products */;
@@ -902,7 +891,7 @@
 				DEVELOPMENT_TEAM = 6U5LP2533T;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Workspaces/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -927,7 +916,7 @@
 				DEVELOPMENT_TEAM = 6U5LP2533T;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Workspaces/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -997,14 +986,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.1.2;
-			};
-		};
-		247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:Orlandos-nl/cyphertextkit.git";
-			requirement = {
-				branch = "feature/async-await";
-				kind = branch;
 			};
 		};
 		24951F272699A4BA00AC55B1 /* XCRemoteSwiftPackageReference "WebRTC" */ = {
@@ -1084,39 +1065,17 @@
 			package = 24E38F74266F9A3A00A3B43B /* XCRemoteSwiftPackageReference "fluent-sqlite" */;
 			productName = FluentSQLiteDriver;
 		};
-		241B96B726F499E2004AFD4F /* CypherMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */;
-			productName = CypherMessaging;
-		};
-		241B96B926F499E2004AFD4F /* MessagingHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */;
-			productName = MessagingHelpers;
-		};
 		241B96BD26F49A78004AFD4F /* ConsoleKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 241B96BC26F49A78004AFD4F /* XCRemoteSwiftPackageReference "console-kit" */;
 			productName = ConsoleKit;
 		};
-		247672DA26EC1C6A00274AC5 /* CypherMessaging */ = {
+		2465274E27DB75550075868E /* CypherMessaging */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */;
 			productName = CypherMessaging;
 		};
-		247672DC26EC1C6A00274AC5 /* MessagingHelpers */ = {
+		2465275027DB75B30075868E /* MessagingHelpers */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */;
-			productName = MessagingHelpers;
-		};
-		247672DE26ECECB800274AC5 /* CypherMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */;
-			productName = CypherMessaging;
-		};
-		247672E026ECECB800274AC5 /* MessagingHelpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 247672D926EC1C6A00274AC5 /* XCRemoteSwiftPackageReference "cyphertextkit" */;
 			productName = MessagingHelpers;
 		};
 		248481A52680ABA9008A88AF /* FluentSQLiteDriver */ = {

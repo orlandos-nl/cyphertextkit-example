@@ -14,7 +14,7 @@ struct ContactImage: View {
     let contact: Contact
     @State var data: Data?
     
-    init(contact: Contact) {
+    @MainActor init(contact: Contact) {
         self.contact = contact
         self._data = .init(wrappedValue: contact.image)
     }

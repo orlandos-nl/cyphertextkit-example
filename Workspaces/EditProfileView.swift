@@ -92,7 +92,9 @@ struct EditProfileView: View {
                                 }
                                 metadata.status = status
                             }
-                        ).submitLabel(.done)
+                        )
+                            .disableAutocorrection(true)
+                            .submitLabel(.done)
                         
                         Spacer()
                     }

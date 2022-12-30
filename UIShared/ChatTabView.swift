@@ -67,7 +67,7 @@ struct ChatTabView: View {
         var unreadChatsCount = 0
         
         for contact in try await messenger.listContacts() {
-            if contact.ourState == .undecided {
+            if contact.ourFriendshipState == .undecided {
                 unacceptedContactsCount += 1
             }
         }

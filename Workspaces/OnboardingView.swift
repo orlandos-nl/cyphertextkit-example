@@ -102,6 +102,7 @@ private struct View3: View {
             
             TextField("Username", text: $username)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .disableAutocorrection(true)
                 .foregroundColor(.black)
             
             Spacer()

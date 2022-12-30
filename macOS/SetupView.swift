@@ -43,6 +43,7 @@ struct OnboardingView: View {
                 
                 TextField("Username", text: $username)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .disableAutocorrection(true)
                     .foregroundColor(.black)
                 
                 Spacer()

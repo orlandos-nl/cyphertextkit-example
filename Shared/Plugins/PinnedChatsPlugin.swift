@@ -23,7 +23,7 @@ struct PinnedChatsPlugin: Plugin {
 }
 
 extension AnyConversation {
-    public var isPinned: Bool {
+    @MainActor public var isPinned: Bool {
         (try? self.conversation.getProp(
             ofType: ChatMetadata.self,
             forPlugin: PinnedChatsPlugin.self,
@@ -31,7 +31,7 @@ extension AnyConversation {
         )) ?? false
     }
     
-    public var isMarkedUnread: Bool {
+    @MainActor public var isMarkedUnread: Bool {
         (try? self.conversation.getProp(
             ofType: ChatMetadata.self,
             forPlugin: PinnedChatsPlugin.self,

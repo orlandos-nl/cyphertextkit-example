@@ -14,7 +14,7 @@ struct ContactRow: View {
     @Environment(\.messenger) var messenger
     @Environment(\.plugin) var plugin
     
-    init(contact: Contact) {
+    @MainActor init(contact: Contact) {
         self.contact = contact
         self._status = .init(initialValue: contact.status ?? "Available")
     }
@@ -37,7 +37,7 @@ struct ContactRow: View {
                 ContactImage(contact: contact)
                     .frame(width: 44, height: 44)
                     .overlay(alignment: .topTrailing) {
-                        if contact.ourState == .undecided {
+                        if contact.ourFriendshipState == .undecided {
                             Circle()
                                 .fill(Color.accentColor)
                                 .frame(width: 12, height: 12)

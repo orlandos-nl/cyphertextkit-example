@@ -48,7 +48,7 @@ struct AddOnlineContact: View {
                         return
                     }
                     
-                    Task.detached {
+                    Task {
                         let chat = try await messenger.createPrivateChat(with: Username(username))
                         let contact = try await messenger.createContact(byUsername: Username(username))
                         try await contact.befriend()
