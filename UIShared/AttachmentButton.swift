@@ -59,7 +59,7 @@ struct AttachmentButton<Chat: AnyConversation>: View {
         )
         .fullScreenCover(isPresented: $sendPhoto) {
             ImagePicker(source: .savedPhotosAlbum) { image in
-                sendAttachment = false
+                sendPhoto = false
                 
                 guard
                     let image = image,

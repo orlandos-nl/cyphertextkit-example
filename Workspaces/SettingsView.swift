@@ -39,9 +39,6 @@ struct SettingsView: View {
                         }.frame(height: 44)
                         
                         Spacer()
-                        
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.gray)
                     }
                     .padding(.vertical, 8)
                     .background(Color(white: 0, opacity: 0.001))

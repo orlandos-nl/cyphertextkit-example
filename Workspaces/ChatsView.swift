@@ -30,38 +30,36 @@ struct ChatsView: View {
     @StateObject var viewModel: ChatsViewModel
     
     var body: some View {
-        List {
-            ForEach(plugin.conversations) { chat in
-                switch chat {
-                case .privateChat(let chat):
-                    if let contact = plugin.contacts.first(where: { $0.username == chat.conversationPartner }) {
-                        ChatRow(
-                            contact: contact,
-                            privateChat: chat,
-                            mostRecentMessage: MostRecentMessage(
-                                chat: chat,
-                                plugin: plugin
-                            )
-                        ).swipeActions(edge: .trailing) {
-                            Button(role: .destructive, action: {
-                                // TODO: Close chat
-                            }) {
-                                ZStack {
-                                    Color.red
-                                    Image(systemName: "xmark.octagon.fill")
-                                        .scaledToFit()
-                                        .foregroundColor(.white)
-                                        .padding(8)
-                                }
+        List(plugin.conversations) { chat in
+            switch chat {
+            case .privateChat(let chat):
+                if let contact = plugin.contacts.first(where: { $0.username == chat.conversationPartner }) {
+                    ChatRow(
+                        contact: contact,
+                        privateChat: chat,
+                        mostRecentMessage: MostRecentMessage(
+                            chat: chat,
+                            plugin: plugin
+                        )
+                    ).swipeActions(edge: .trailing) {
+                        Button(role: .destructive, action: {
+                            // TODO: Close chat
+                        }) {
+                            ZStack {
+                                Color.red
+                                Image(systemName: "xmark.octagon.fill")
+                                    .scaledToFit()
+                                    .foregroundColor(.white)
+                                    .padding(8)
                             }
                         }
                     }
-                case .groupChat, .internalChat:
-                    EmptyView()
                 }
+            case .groupChat, .internalChat:
+                EmptyView()
             }
         }
-        .listStyle(InsetListStyle())
+        .listStyle(.inset)
         .navigationBarTitle("Chats")
     }
 }
